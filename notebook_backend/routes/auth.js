@@ -14,7 +14,7 @@ const validate_login = (data) => {
 // Login
 router.post("/login", async (req, res) => {
   const { error } = validate_login(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  if (error) return res.status(400).send(error.details[0].message.replaceAll('"', ''))
 
   let user = await User.findOne({ email: req.body.email })
   if (!user) return res.status(400).send("Invalid email or password.")
@@ -22,14 +22,13 @@ router.post("/login", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password)
   if (!validPassword) return res.status(400).send("Invalid email or password.")
 
-  const token = user.generateAuthToken()
-  res.send(token)
+  res.send(user.generateAuthToken())
 })
 
 router.post("/signup", async (req, res) => {
     const {error} = validate(req.body)
 
-    if (error) return res.status(400).send("validate error: " + error.details[0].message)
+    if (error) return res.status(400).send(error.details[0].message.replaceAll('"', ''))
 
     let user = await User.findOne({email: req.body.email})
     if (user) return res.status(400).send("User already registered")
@@ -45,7 +44,7 @@ router.post("/signup", async (req, res) => {
 
     await user.save()
 
-    res.send(user)
+    res.send(user.generateAuthToken())
 })
 
 module.exports = router

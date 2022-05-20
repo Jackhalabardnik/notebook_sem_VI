@@ -1,15 +1,14 @@
-import {Link} from "react-router-dom";
 import Login from "../Login/login";
-import {Button} from "react-bootstrap";
+import Signup from "../Signup/signup";
 
 const Front = () => {
     return (
         <div>
             <nav className="bg-primary d-flex justify-content-end flex-column flex-md-row">
-                <h2 className="ms-md-5 my-3 text-white text-center">
+                <h2 className="ms-md-2 my-3 text-white text-center">
                     Notebook
                 </h2>
-                <div className="col-lg-5 col-1">
+                <div className="col-lg-5 col-xl-6 col-1">
 
                 </div>
                 <div>
@@ -18,7 +17,7 @@ const Front = () => {
             </nav>
             <div className="d-flex flex-lg-row flex-md-column">
                 <div
-                    className="d-flex flex-column align-items-center fs-4 align-middle p-4 col-lg-4 col-12 text-center">
+                    className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center">
 
                     <ul className="text-start">
                         <li>
@@ -33,11 +32,7 @@ const Front = () => {
                     </ul>
                     If this is true, you have come to the right place.
                     <div className="my-4">
-                        <Link to="/signup">
-                            <Button variant="primary" className="fs-3">
-                                Register today
-                            </Button>
-                        </Link>
+                        <Signup/>
                     </div>
 
                     And create your own notebook for free!
