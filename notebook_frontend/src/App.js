@@ -7,6 +7,7 @@ function App() {
     return (
         <Routes>
             {user && <Route path="/" exact element={<Main />} />}
+            {user && <Route path="/user" element={<Main />} />}
             <Route path="/signup" exact element={<Signup />} />
             <Route path="/front" exact element={<Front />} />
             <Route path="/*" element={<Navigate replace to="/front" />} />

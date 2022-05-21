@@ -58,7 +58,7 @@ const Login = () => {
                         />
                         <Form.Control.Feedback type="invalid" className="fw-bold bg-dark text-center bg-opacity-75 rounded-3 text-white" >{formik.errors.password}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <Button type="submit" variant="primary" className="col-lg-3 col-md-4 col-12 col-xl-3 border-1 border-white">Sign In</Button>
+                    <Button type="submit" variant="outline-light" className="col-lg-3 col-md-4 col-12 col-xl-3">Sign In</Button>
                 </div>
             </Form>
             {error && <Alert variant="danger" className="text-center m-2">Error: {error}</Alert> }
