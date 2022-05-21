@@ -1,18 +1,12 @@
-import Login from "../Login/login";
+import Rnavbar from "../RNavBar/rnavbar";
 import Signup from "../Signup/signup";
-import {Link} from "react-router-dom";
 
 const Front = () => {
     return (
         <div>
-            <nav className="bg-primary d-flex justify-content-between flex-column flex-md-row align-items-center">
-                <Link to="/front" className="ms-md-2 my-3 text-white text-center text-decoration-none fs-3 fw-bold">
-                    Notebook
-                </Link>
-                <div>
-                    <Login/>
-                </div>
-            </nav>
+            <Rnavbar
+                mainlink="/front"
+            />
             <div className="d-flex flex-lg-row flex-md-column">
                 <div
                     className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center">

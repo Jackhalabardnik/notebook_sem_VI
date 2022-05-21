@@ -1,6 +1,6 @@
 import Rnavbar from "../RNavBar/rnavbar";
 
-const Main = () => {
+const UserSettings = () => {
 
     return (
         <div>
@@ -9,4 +9,4 @@ const Main = () => {
         </div>
     )
 }
-export default Main
+export default UserSettings
