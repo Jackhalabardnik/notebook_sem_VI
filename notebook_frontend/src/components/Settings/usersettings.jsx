@@ -1,11 +1,14 @@
 import Rnavbar from "../RNavBar/rnavbar";
+import UserEdit from "../UserEdit/useredit";
 
 const UserSettings = () => {
 
     return (
         <div>
             <Rnavbar/>
-            App
+            <div className="d-flex justify-content-center my-3">
+                <UserEdit/>
+            </div>
         </div>
     )
 }

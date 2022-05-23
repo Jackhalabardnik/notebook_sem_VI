@@ -4,7 +4,7 @@ import {Alert, Button, FloatingLabel, Form} from "react-bootstrap"
 import {useFormik} from 'formik';
 import * as yup from "yup";
 
-const loginValidationSchema = yup.object().shape({
+const signupValidationSchema = yup.object().shape({
     username: yup.string().required().label('Username'),
     email: yup.string().email().required().label('Email'),
     password: yup.string().required().label('Password')
@@ -19,7 +19,7 @@ const Signup = () => {
             email: '',
             password: ''
         },
-        validationSchema: loginValidationSchema,
+        validationSchema: signupValidationSchema,
         onSubmit: values => {
             axios.post("http://localhost:8080/api/auth/signup", values)
                 .then(response => {

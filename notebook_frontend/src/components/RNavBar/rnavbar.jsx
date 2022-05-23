@@ -31,8 +31,8 @@ const RNavBar = (props) => {
                 Notebook
             </Link>
 
-            {token ? <div className="d-flex flex-column flex-md-row justify-content-between mx-3 align-items-center">
-                    <div className={"text-white fs-5 fw-bold" + (window.location.pathname === "/user" ? " me-4" : "")}>
+            {token ? <div className="d-flex flex-column flex-md-row justify-content-md-center mx-3 align-items-center">
+                    <div className={"text-white fs-5 fw-bold" + (window.location.pathname === "/user" ? "me-0 me-md-4" : "")}>
                             {userData.username}
                     </div>
                     {
