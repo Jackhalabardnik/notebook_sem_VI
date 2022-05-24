@@ -19,7 +19,7 @@ router.use(auth)
 
 // GET /users/logged_in
 router.get("/logged_in", async (req, res) => {
-    const user = await User.findOne({email: req.user.email})
+    const user = await User.findOne({_id: req.user._id})
     if (!user) return res.status(404).send("User not found")
     res.send(user)
 })
@@ -29,7 +29,7 @@ router.put("/", async (req, res) => {
     const {error} = validate_put(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
-    const user = await User.findOne({email: req.user.email})
+    const user = await User.findOne({_id: req.user._id})
     if (!user) return res.status(404).send("User not found")
 
     if (req.body.email && req.body.email !== user.email) {
