@@ -49,9 +49,24 @@ const UserEdit = () => {
         },
     });
 
+    const delete_account = async () => {
+        const token = localStorage.getItem("token")
+        await axios.delete("http://localhost:8080/api/users", {headers: {"authorization": `${token}`}})
+            .then(response => {
+                localStorage.removeItem("token")
+                window.location = "/"
+            })
+            .catch(error => {
+                console.log(error)
+                if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                    setError(error.response.data)
+                }
+            })
+    }
+
     return (
         <div className="col-12 col-md-6">
-            <Form onSubmit={formik.handleSubmit} noValidate className="px-3">
+            <Form onSubmit={formik.handleSubmit} noValidate>
                 <div>
                     <FloatingLabel controlId="inputUserName" label="New username" className="mb-3">
                         <Form.Control
@@ -122,6 +137,12 @@ const UserEdit = () => {
                 </div>
             </Form>
             {error && <Alert variant="danger" className="text-center m-2">Error: {error}</Alert>}
+            <div className="mt-5 bg-danger bg-opacity-50 p-5 text-center">
+                <div className="fs-5 fw-bold mb-2">
+                    Danger Zone:
+                </div>
+                <Button type="button" variant="danger" className="col-12" onClick={delete_account}>Delete account</Button>
+            </div>
         </div>);
 };
 export default UserEdit;
