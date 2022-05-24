@@ -23,10 +23,8 @@ const MainApp = () => {
             <Category />
             <div className="w-100 text-center">
                 {categories.map((category, index) => (
-                    // Setting "index" as key because name and age can be repeated, It will be better if you assign uniqe id as key
                     <li key={index}>
-                        <span>name: {category.name}</span>{" "}
-                        <span>user: {category.user}</span>
+                        name: {category.name}
                     </li>
                 ))}
             </div>

@@ -11,7 +11,10 @@ const noteRoutes = require("./routes/notes")
 
 connection()
 
-
+if(process.env.IS_DEV === 'true') {
+    const drop_data_without_users_and_seed_them = require('./misc/seed_user_data');
+    drop_data_without_users_and_seed_them().then()
+}
 
 app.use(express.json())
 app.use(cors())
