@@ -10,12 +10,14 @@ const RNavBar = (props) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-        axios.get(`http://localhost:8080/api/users/logged_in`, {headers: {"authorization": `${token}`}})
-            .then((response) => {
-                setUserData(response.data)
-            }).catch((error) => {
-            console.log(error)
-        })
+        if(token) {
+            axios.get(`http://localhost:8080/api/users/logged_in`, {headers: {"authorization": `${token}`}})
+                .then((response) => {
+                    setUserData(response.data)
+                }).catch((error) => {
+                console.log(error)
+            })
+        }
     }, []);
 
     const handleLogout = () => {

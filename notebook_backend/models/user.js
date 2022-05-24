@@ -12,7 +12,7 @@ userSchema.methods.generateAuthToken = function () {
         expiresIn: "7d",
     })
 }
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema, "User")
 
 const validate = (data) => {
     const schema = Joi.object({

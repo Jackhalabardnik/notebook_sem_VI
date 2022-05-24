@@ -20,7 +20,7 @@ const notebookSchema = new mongoose.Schema({
     }
 })
 
-const Notebook = mongoose.model("Notebook", notebookSchema)
+const Notebook = mongoose.model("Notebook", notebookSchema, "Notebook")
 
 const validate = (data) => {
     const schema = Joi.object({
