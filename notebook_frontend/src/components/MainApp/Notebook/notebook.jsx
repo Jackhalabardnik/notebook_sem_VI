@@ -12,6 +12,8 @@ const notebook_validation_schema = yup.object().shape({
 const Notebook = (props) => {
     const [notebook_name_error, setNotebook_name_error] = useState('')
 
+
+
     const notebook_name_form = useFormik({
         initialValues: {
             name: '',
@@ -29,8 +31,15 @@ const Notebook = (props) => {
                         setNotebook_name_error(error.response.data)
                     }
                 })
+            notebook_name_form.resetForm()
         },
     });
+
+    const handleChange = (change) => {
+        notebook_name_form.handleChange(change)
+        setTimeout(() => notebook_name_form.setErrors({}), 3000);
+        setTimeout(() => notebook_name_form.resetForm({}), 10000);
+    };
 
     return (
         <ul className="list-unstyled bg-dark bg-opacity-10 text-dark">
@@ -47,10 +56,11 @@ const Notebook = (props) => {
                                 type="text"
                                 name="name"
                                 placeholder="Name"
-                                onChange={notebook_name_form.handleChange}
+                                onChange={handleChange}
                                 value={notebook_name_form.values.name}
                                 isInvalid={notebook_name_form.touched.name && !!notebook_name_form.errors.name}
                             />
+
                             <Form.Control.Feedback type="invalid"
                                                    className="fw-bold">{notebook_name_form.errors.name}</Form.Control.Feedback>
                         </FloatingLabel>

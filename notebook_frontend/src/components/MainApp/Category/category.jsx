@@ -40,6 +40,12 @@ const Category = (props) => {
         },
     });
 
+    const handleChange = (change) => {
+        category_name_form.handleChange(change)
+        setTimeout(() => category_name_form.setErrors({}), 3000);
+        setTimeout(() => category_name_form.resetForm({}), 10000);
+    };
+
     return (<div className="col-12 col-md-2 h-100">
         <ul className="list-unstyled">
             {props.categories.map((category, index) => (
@@ -66,7 +72,7 @@ const Category = (props) => {
                             type="text"
                             name="name"
                             placeholder="Name"
-                            onChange={category_name_form.handleChange}
+                            onChange={handleChange}
                             value={category_name_form.values.name}
                             isInvalid={category_name_form.touched.name && !!category_name_form.errors.name}
                         />
