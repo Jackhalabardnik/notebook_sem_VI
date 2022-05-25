@@ -1,6 +1,8 @@
 const router = require("express").Router()
 const {Category, validate} = require("../models/category")
 const auth = require("../middleware/auth")
+const {Notebook} = require("../models/notebook");
+const {Note} = require("../models/note");
 
 router.use(auth)
 
@@ -54,6 +56,10 @@ router.delete("/:id", async (req, res) => {
         user: req.user._id
     })
     if (!category) return res.status(404).send("The category with the given ID was not found.")
+
+    await Notebook.deleteMany({category: category._id})
+    await Note.deleteMany({category: category._id})
+
     res.send(category)
 })
 

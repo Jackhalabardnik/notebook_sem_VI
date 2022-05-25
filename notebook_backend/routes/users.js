@@ -3,6 +3,9 @@ const {User} = require("../models/user")
 const auth = require("../middleware/auth")
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const {Category} = require("../models/category");
+const {Notebook} = require("../models/notebook");
+const {Note} = require("../models/note");
 
 const validate_put = (data) => {
     const schema = Joi.object({
@@ -58,6 +61,10 @@ router.delete("/", async (req, res) => {
     const user = await User.findByIdAndRemove(req.user._id)
 
     if (!user) return res.status(404).send("User not found")
+
+    await Category.deleteMany({user: user._id})
+    await Notebook.deleteMany({user: user._id})
+    await Note.deleteMany({user: user._id})
 
     res.send(user)
 })

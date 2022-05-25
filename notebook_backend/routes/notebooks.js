@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const {Notebook, validate} = require("../models/notebook")
 const auth = require("../middleware/auth")
+const {Note} = require("../models/note");
 
 router.use(auth)
 
@@ -67,6 +68,9 @@ router.delete("/:id", async (req, res) => {
         user: req.user._id
     })
     if (!notebook) return res.status(404).send("Notebook not found")
+
+    await Note.deleteMany({notebook: notebook._id})
+
     res.send(notebook)
 })
 
