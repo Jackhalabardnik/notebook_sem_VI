@@ -46,16 +46,44 @@ const Category = (props) => {
         setTimeout(() => category_name_form.resetForm({}), 10000);
     };
 
+    const delete_category = (category_id) => {
+        const token = localStorage.getItem("token")
+        axios.delete(`http://localhost:8080/api/category/`,  { data: {id: category_id}, headers: {"authorization": `${token}`}})
+            .then(() => {
+                props.setCategories(props.categories.filter(category => category !== category_id))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (<div className="col-12 col-md-2 h-100">
-        <ul className="list-unstyled">
+        <ul className="list-unstyled ">
             {props.categories.map((category, index) => (
                 <li key={index}>
-                    <Button className={open_categories.includes(category.name) ?
-                        "bg-dark text-light w-100 bg-opacity-75 border-0 shadow-none rounded-0" : "bg-dark bg-opacity-25 text-dark w-100 border-0 shadow-none rounded-0"}
-                            onClick={() => switch_category(category.name)}
-                    >
-                        {category.name}
-                    </Button>
+                    <div className={ "d-flex justify-content-between bg-dark " + ( open_categories.includes(category.name) ?
+                        "bg-opacity-75" : "bg-opacity-25" )}>
+                        <Button className= {"bg-transparent border-0 shadow-none rounded-0 text-start w-100 " + (open_categories.includes(category.name) ? "text-white" : "text-dark")}
+                                onClick={() => switch_category(category.name)}
+                        >
+                            {category.name}
+
+                        </Button>
+                        {
+                            open_categories.includes(category.name) &&
+                            <div className="d-flex">
+                                <Button variant="secondary" className="shadow-none rounded-0" type="button" data-toggle="tooltip"
+                                        data-placement="top" title="Delete">
+                                    <img src="/pencil-square.svg" alt="Trash icon" style={{filter: "invert(100%)" }}></img>
+                                </Button>
+                                <Button variant="danger" className="shadow-none rounded-0" type="button" data-toggle="tooltip"
+                                        data-placement="top" title="Delete" onClick={delete_category(category._id)}>
+                                    <img src="/trash3.svg" alt="Trash icon" style={{filter: "invert(100%)" }}></img>
+                                </Button>
+                            </div>
+                        }
+
+                    </div>
                     {
                         open_categories.includes(category.name) &&
                         <Notebook
@@ -66,7 +94,7 @@ const Category = (props) => {
                     }
                 </li>))}
             <li>
-                <Form onSubmit={category_name_form.handleSubmit} noValidate >
+                <Form onSubmit={category_name_form.handleSubmit} noValidate>
                     <FloatingLabel controlId="inputUserName" label="New category" className="mb-3">
                         <Form.Control
                             type="text"

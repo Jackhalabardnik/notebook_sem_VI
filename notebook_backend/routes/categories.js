@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 })
 
 // PUT /api/categories/:id
-router.put("/:id", async (req, res) => {
+router.put("/", async (req, res) => {
     const {error} = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -50,12 +50,12 @@ router.put("/:id", async (req, res) => {
 })
 
 // DELETE /api/categories/:id
-router.delete("/:id", async (req, res) => {
+router.delete("/", async (req, res) => {
     const category = await Category.findOneAndDelete({
-        _id: req.params.id,
+        _id: req.body.id,
         user: req.user._id
     })
-    if (!category) return res.status(404).send("The category with the given ID was not found.")
+    if (!category) return res.status(404).send("The category with the given ID was not found. ID=" + req.body.id)
 
     await Notebook.deleteMany({category: category._id})
     await Note.deleteMany({category: category._id})

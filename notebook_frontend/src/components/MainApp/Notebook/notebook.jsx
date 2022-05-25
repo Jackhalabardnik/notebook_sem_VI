@@ -12,8 +12,6 @@ const notebook_validation_schema = yup.object().shape({
 const Notebook = (props) => {
     const [notebook_name_error, setNotebook_name_error] = useState('')
 
-
-
     const notebook_name_form = useFormik({
         initialValues: {
             name: '',
