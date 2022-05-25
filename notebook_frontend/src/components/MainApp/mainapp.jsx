@@ -2,18 +2,10 @@ import Category from "./Category/category";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-
-
-
-
-
 const MainApp = () => {
 
     const [categories, setCategories] = useState([])
     const [notebooks, setNotebooks] = useState([])
-
-
-
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -31,12 +23,6 @@ const MainApp = () => {
         })
     }, []);
 
-
-
-
-
-
-
     return (
         <div className="d-flex w-100 h-100">
             <Category
@@ -46,7 +32,7 @@ const MainApp = () => {
                 setNotebooks={setNotebooks}
                 open_categories={[]}
             />
-            <div className="w-100 text-center">
+            <div className="w-100">
 
             </div>
 

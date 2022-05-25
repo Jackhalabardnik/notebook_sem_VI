@@ -25,6 +25,7 @@ const Notebook = mongoose.model("Notebook", notebookSchema, "Notebook")
 const validate = (data) => {
     const schema = Joi.object({
         name: Joi.string().required().label("Notebook Name"),
+        category: Joi.string().required().label("Category"),
     })
     return schema.validate(data)
 }

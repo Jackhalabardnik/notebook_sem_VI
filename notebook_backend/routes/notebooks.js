@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 
     const newNotebook = new Notebook({
         user: user._id,
-        category: category._id,
+        category: category,
         name: name
     })
     await newNotebook.save()

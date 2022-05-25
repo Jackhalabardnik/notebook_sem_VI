@@ -55,8 +55,7 @@ const Category = (props) => {
                         <Notebook
                             category={category}
                             notebooks={props.notebooks}
-                            notebook_name_form={props.notebook_name_form}
-                            notebook_name_error={props.notebook_name_error}
+                            setNotebooks={props.setNotebooks}
                         />
                     }
                 </li>))}

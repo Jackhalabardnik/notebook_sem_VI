@@ -6,7 +6,7 @@ import * as yup from "yup";
 
 const notebook_validation_schema = yup.object().shape({
     name: yup.string().required().min(3).label('Name'),
-    id: yup.string().required().label('Id'),
+    category: yup.string().required().label('Id'),
 });
 
 const Notebook = (props) => {
@@ -15,7 +15,7 @@ const Notebook = (props) => {
     const notebook_name_form = useFormik({
         initialValues: {
             name: '',
-            id: '',
+            category: props.category._id,
         },
         validationSchema: notebook_validation_schema,
         onSubmit: values => {
@@ -41,7 +41,7 @@ const Notebook = (props) => {
                     </li>
                 ))}
                 <li>
-                    <Form onSubmit={notebook_name_form.handleSubmit()} noValidate>
+                    <Form onSubmit={notebook_name_form.handleSubmit} noValidate>
                         <FloatingLabel controlId="inputUserName" label="New notebook" className="mb-3">
                             <Form.Control
                                 type="text"
