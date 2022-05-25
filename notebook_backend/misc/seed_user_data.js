@@ -79,7 +79,6 @@ async function seed_notebooks_for_user(user) {
 
     for (let i = 0; i < categories.length; i++) {
         let number = Math.floor(Math.random() * 4) + 1
-        number--;
         for (let j = 0; j < number; j++) {
             notebooks.push({
                 user: user._id,

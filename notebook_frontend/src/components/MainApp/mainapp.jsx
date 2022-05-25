@@ -4,9 +4,16 @@ import axios from "axios";
 
 
 
+
+
+
 const MainApp = () => {
 
     const [categories, setCategories] = useState([])
+    const [notebooks, setNotebooks] = useState([])
+
+
+
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -16,17 +23,31 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
+        axios.get(`http://localhost:8080/api/notebook`, {headers: {"authorization": `${token}`}})
+            .then((response) => {
+                setNotebooks(response.data)
+            }).catch((error) => {
+            console.log(error)
+        })
     }, []);
 
+
+
+
+
+
+
     return (
-        <div className="d-flex w-100">
-            <Category />
+        <div className="d-flex w-100 h-100">
+            <Category
+                categories={categories}
+                setCategories={setCategories}
+                notebooks={notebooks}
+                setNotebooks={setNotebooks}
+                open_categories={[]}
+            />
             <div className="w-100 text-center">
-                {categories.map((category, index) => (
-                    <li key={index}>
-                        name: {category.name}
-                    </li>
-                ))}
+
             </div>
 
         </div>);
