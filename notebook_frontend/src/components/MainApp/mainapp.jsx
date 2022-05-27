@@ -1,11 +1,13 @@
 import Category from "./Category/category";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Notes from "./Notes/notes";
 
 const MainApp = () => {
 
     const [categories, setCategories] = useState([])
     const [notebooks, setNotebooks] = useState([])
+    const [notes, setNotes] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -21,6 +23,12 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
+        axios.get(`http://localhost:8080/api/note`, {headers: {"authorization": `${token}`}})
+            .then((response) => {
+                setNotes(response.data)
+            }).catch((error) => {
+            console.log(error)
+        })
     }, []);
 
     return (
@@ -33,7 +41,6 @@ const MainApp = () => {
                 open_categories={[]}
             />
             <div className="w-100">
-
             </div>
 
         </div>);

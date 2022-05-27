@@ -24,7 +24,7 @@ const generate_name = () => {
 const generate_message = () => {
 
     let message = random_words({
-        min: 1, max: 10, join: ' '});
+        min: 1, max: 50, join: ' '});
     return message.slice(0, 1).toUpperCase().concat(message.slice(1));;
 }
 
@@ -78,7 +78,7 @@ async function seed_notebooks_for_user(user) {
     const categories = await Category.find({user: user._id})
 
     for (let i = 0; i < categories.length; i++) {
-        let number = Math.floor(Math.random() * 4) + 1
+        let number = Math.floor(Math.random() * 6) + 1
         for (let j = 0; j < number; j++) {
             notebooks.push({
                 user: user._id,
@@ -101,7 +101,7 @@ async function seed_categories_for_user(user) {
 
     let categories = []
 
-    let number = Math.floor(Math.random() * 5) + 1
+    let number = Math.floor(Math.random() * 10) + 1
 
     for (let i = 0; i < number; i++) {
         categories.push({
