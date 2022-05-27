@@ -14,13 +14,6 @@ const validate_put = (data) => {
     return schema.validate(data)
 }
 
-const validate_delete = (data) => {
-    const schema = Joi.object({
-        id: Joi.string().required().label("Notebook Id"),
-    })
-    return schema.validate(data)
-}
-
 // GET /api/notebooks for a user
 router.get("/", async (req, res) => {
     const notebooks = await Notebook.find({user: req.user._id})
@@ -65,12 +58,12 @@ router.post("/", async (req, res) => {
 })
 
 // PUT /api/notebooks/:id for a user
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
     const {error} = validate_put(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
     const notebook = await Notebook.findOneAndUpdate({
-        _id: req.body.notebook_id,
+        _id: req.params.id,
         user: req.user._id
     }, {name: req.body.name}, {new: true})
     if (!notebook) return res.status(404).send("Notebook not found")
@@ -78,12 +71,9 @@ router.put("/", async (req, res) => {
 })
 
 // DELETE /api/notebooks/:id for a user
-router.delete("/", async (req, res) => {
-    const {error} = validate_delete(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
-
+router.delete("/:id", async (req, res) => {
     const notebook = await Notebook.findOneAndDelete({
-        _id: req.body.id,
+        _id: req.params.id,
         user: req.user._id
     })
     if (!notebook) return res.status(404).send("Notebook not found")

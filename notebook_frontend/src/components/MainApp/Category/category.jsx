@@ -60,7 +60,7 @@ const Category = (props) => {
         validationSchema: edit_category_validation_schema,
         onSubmit: values => {
             const token = localStorage.getItem("token")
-            axios.put("http://localhost:8080/api/category", values, {headers: {"authorization": `${token}`}})
+            axios.put(`http://localhost:8080/api/category/${edit_category_name_form.values.category_id}`, values, {headers: {"authorization": `${token}`}})
                 .then(response => {
                     const categories = [...props.categories]
                     const index = categories.findIndex(category => category._id === edit_category_name_form.values.category_id)
@@ -84,8 +84,7 @@ const Category = (props) => {
 
     const delete_category = (category_id) => {
         const token = localStorage.getItem("token")
-        axios.delete(`http://localhost:8080/api/category/`, {
-            data: {id: category_id},
+        axios.delete(`http://localhost:8080/api/category/${category_id}`, {
             headers: {"authorization": `${token}`}
         })
             .then(() => {
@@ -110,34 +109,34 @@ const Category = (props) => {
         {
             delete_modal_open &&
             <ConfirmModal
-                title = "Are you sure you want to delete this category?"
-                onConfirm = {() => {
+                title="Are you sure you want to delete this category?"
+                onConfirm={() => {
                     delete_category(delete_category_id)
                     setDelete_modal_open(false)
                 }}
-                onCancel = {() => setDelete_modal_open(false)}
+                onCancel={() => setDelete_modal_open(false)}
             />
         }
         {
             edit_modal_open &&
             <EditModal
-                edit_category_name_form = {edit_category_name_form}
-                form_error = {category_edit_name_error}
-                onCancel = {() => setEdit_modal_open(false)}
+                edit_category_name_form={edit_category_name_form}
+                form_error={category_edit_name_error}
+                onCancel={() => setEdit_modal_open(false)}
             />
         }
         <ul className="list-unstyled ">
             {props.categories.map((category, index) => (
                 <li key={index}>
                     <MenuButton
-                        is_highlighted_mode = { open_categories.includes(category.name) }
-                        highlighted_bg = "bg-dark bg-opacity-75"
-                        not_highlighted_bg = "bg-dark bg-opacity-25"
-                        main_button_on_click = {() => switch_category(category.name)}
-                        main_button_text = {category.name}
-                        edit_button_on_click = {() => open_edit_category_modal(category._id, category.name)}
-                        delete_button_on_click = {() => open_delete_category_modal(category._id) }
-                        />
+                        is_highlighted_mode={open_categories.includes(category.name)}
+                        highlighted_bg="bg-dark bg-opacity-75"
+                        not_highlighted_bg="bg-dark bg-opacity-25"
+                        main_button_on_click={() => switch_category(category.name)}
+                        main_button_text={category.name}
+                        edit_button_on_click={() => open_edit_category_modal(category._id, category.name)}
+                        delete_button_on_click={() => open_delete_category_modal(category._id)}
+                    />
                     {
                         open_categories.includes(category.name) &&
                         <Notebook

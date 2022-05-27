@@ -15,13 +15,6 @@ const validate_put = (data) => {
     return schema.validate(data)
 }
 
-const validate_delete = (data) => {
-    const schema = Joi.object({
-        id: Joi.string().required().label("Category Id"),
-    })
-    return schema.validate(data)
-}
-
 // GET /api/categories
 router.get("/", async (req, res) => {
     const categories = await Category.find({user: req.user._id}).sort("name")
@@ -53,12 +46,12 @@ router.post("/", async (req, res) => {
 })
 
 // PUT /api/categories/:id
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
     const {error} = validate_put(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
     const category = await Category.findOneAndUpdate({
-        _id: req.body.category_id,
+        _id: req.params.id,
         user: req.user._id
     }, {name: req.body.name}, {new: true})
     if (!category) return res.status(404).send("The category with the given ID was not found.")
@@ -66,12 +59,9 @@ router.put("/", async (req, res) => {
 })
 
 // DELETE /api/categories/:id
-router.delete("/", async (req, res) => {
-    const {error} = validate_delete(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
-
+router.delete("/:id", async (req, res) => {
     const category = await Category.findOneAndDelete({
-        _id: req.body.id,
+        _id: req.params.id,
         user: req.user._id
     })
     if (!category) return res.status(404).send("The category with the given ID was not found. ID=" + req.body.id)

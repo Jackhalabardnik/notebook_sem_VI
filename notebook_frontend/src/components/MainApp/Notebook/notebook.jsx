@@ -53,7 +53,7 @@ const Notebook = (props) => {
         validationSchema: edit_notebook_validation_schema,
         onSubmit: values => {
             const token = localStorage.getItem("token")
-            axios.put("http://localhost:8080/api/notebook", values, {headers: {"authorization": `${token}`}})
+            axios.put(`http://localhost:8080/api/notebook/${edit_notebook_name_form.values.notebook_id}`, values, {headers: {"authorization": `${token}`}})
                 .then(response => {
                     const notebooks = [...props.notebooks]
                     const index = notebooks.findIndex(notebook => notebook._id === edit_notebook_name_form.values.notebook_id)
@@ -77,7 +77,7 @@ const Notebook = (props) => {
 
     const delete_notebook = (notebook_id) => {
         const token = localStorage.getItem("token")
-        axios.delete(`http://localhost:8080/api/notebook/`, {
+        axios.delete(`http://localhost:8080/api/notebook/${notebook_id}`, {
             data: { id: notebook_id},
             headers: {"authorization": `${token}`}
         })
