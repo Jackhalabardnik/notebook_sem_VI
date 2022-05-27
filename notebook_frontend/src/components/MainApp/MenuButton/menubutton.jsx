@@ -4,7 +4,7 @@ const MenuButton = (props) => {
 
     return (
         <div
-            className={"d-flex justify-content-between bg-dark " + (props.is_highlighted_mode ?
+            className={"d-flex justify-content-between " + (props.is_highlighted_mode ?
                 props.highlighted_bg : props.not_highlighted_bg)}>
             <Button
                 className={"bg-transparent border-0 shadow-none rounded-0 text-start w-100 " + (props.is_highlighted_mode ? "text-white" : "text-dark")}

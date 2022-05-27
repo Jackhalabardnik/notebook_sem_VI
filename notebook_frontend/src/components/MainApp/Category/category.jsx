@@ -20,6 +20,7 @@ const edit_category_validation_schema = yup.object().shape({
 const Category = (props) => {
     const [open_categories, setOpen_categories] = useState(props.open_categories)
     const [category_name_error, setCategory_name_error] = useState('')
+    const [category_edit_name_error, setCategory_edit_name_error] = useState('')
     const [edit_modal_open, setEdit_modal_open] = useState(false)
     const [delete_modal_open, setDelete_modal_open] = useState(false)
     const [delete_category_id, setDelete_category_id] = useState('')
@@ -69,7 +70,7 @@ const Category = (props) => {
                 })
                 .catch(error => {
                     if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                        setCategory_name_error(error.response.data)
+                        setCategory_edit_name_error(error.response.data)
                     }
                 })
         },
@@ -121,7 +122,7 @@ const Category = (props) => {
             edit_modal_open &&
             <EditModal
                 edit_category_name_form = {edit_category_name_form}
-                form_error = {category_name_error}
+                form_error = {category_edit_name_error}
                 onCancel = {() => setEdit_modal_open(false)}
             />
         }
@@ -130,8 +131,8 @@ const Category = (props) => {
                 <li key={index}>
                     <MenuButton
                         is_highlighted_mode = { open_categories.includes(category.name) }
-                        highlighted_bg = "bg-opacity-75"
-                        not_highlighted_bg = "bg-opacity-25"
+                        highlighted_bg = "bg-dark bg-opacity-75"
+                        not_highlighted_bg = "bg-dark bg-opacity-25"
                         main_button_on_click = {() => switch_category(category.name)}
                         main_button_text = {category.name}
                         edit_button_on_click = {() => open_edit_category_modal(category._id, category.name)}
@@ -143,6 +144,8 @@ const Category = (props) => {
                             category={category}
                             notebooks={props.notebooks}
                             setNotebooks={props.setNotebooks}
+                            active_notebook={props.active_notebook}
+                            setActiveNotebook={props.setActiveNotebook}
                         />
                     }
                 </li>))}

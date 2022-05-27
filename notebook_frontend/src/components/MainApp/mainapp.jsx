@@ -8,6 +8,7 @@ const MainApp = () => {
     const [categories, setCategories] = useState([])
     const [notebooks, setNotebooks] = useState([])
     const [notes, setNotes] = useState([])
+    const [active_notebook, setActiveNotebook] = useState(null)
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -20,6 +21,13 @@ const MainApp = () => {
         axios.get(`http://localhost:8080/api/notebook`, {headers: {"authorization": `${token}`}})
             .then((response) => {
                 setNotebooks(response.data)
+                const last_notebook_id = localStorage.getItem("last_notebook_id")
+                const last_notebook = response.data.find(notebook => notebook.id === last_notebook_id)
+                if(last_notebook) {
+                    setActiveNotebook(last_notebook)
+                } else {
+                    setActiveNotebook(response.data[0])
+                }
             }).catch((error) => {
             console.log(error)
         })
@@ -29,6 +37,9 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
+
+
+
     }, []);
 
     return (
@@ -39,6 +50,8 @@ const MainApp = () => {
                 notebooks={notebooks}
                 setNotebooks={setNotebooks}
                 open_categories={[]}
+                active_notebook={active_notebook}
+                setActiveNotebook={setActiveNotebook}
             />
             <div className="w-100">
             </div>
