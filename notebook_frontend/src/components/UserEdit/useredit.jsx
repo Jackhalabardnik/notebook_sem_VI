@@ -4,6 +4,7 @@ import {Alert, Button, FloatingLabel, Form} from "react-bootstrap"
 import {useFormik} from 'formik';
 import * as yup from "yup";
 import {Link} from "react-router-dom";
+import ConfirmModal from "../Modals/confirm_modal";
 
 const updateUserValidationSchema = yup.object().shape({
     username: yup.string().label('Username'),
@@ -22,6 +23,7 @@ const updateUserValidationSchema = yup.object().shape({
 
 const UserEdit = () => {
     const [error, setError] = useState('')
+    const [delete_modal_open, setDelete_modal_open] = useState(false)
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -66,6 +68,18 @@ const UserEdit = () => {
 
     return (
         <div className="col-12 col-md-6">
+            {
+                delete_modal_open &&
+                <ConfirmModal
+                    title = "Are you sure you want to remove this account? This action can't be undone."
+                    onConfirm = {() => {
+                        delete_account().then(r => {
+                            setDelete_modal_open(false)
+                        })
+                    }}
+                    onCancel = {() => setDelete_modal_open(false)}
+                />
+            }
             <Form onSubmit={formik.handleSubmit} noValidate>
                 <div>
                     <FloatingLabel controlId="inputUserName" label="New username" className="mb-3">
@@ -141,7 +155,7 @@ const UserEdit = () => {
                 <div className="fs-5 fw-bold mb-2">
                     Danger Zone:
                 </div>
-                <Button type="button" variant="danger" className="col-12" onClick={delete_account}>Delete account</Button>
+                <Button type="button" variant="danger" className="col-12" onClick={() => setDelete_modal_open(true)}>Delete account</Button>
             </div>
         </div>);
 };

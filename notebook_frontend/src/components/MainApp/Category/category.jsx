@@ -106,7 +106,7 @@ const Category = (props) => {
         setDelete_modal_open(true);
     }
 
-    return (<div className="col-12 col-md-2 h-100">
+    return (<div className="col-12 col-md-2 vh-100">
         {
             delete_modal_open &&
             <ConfirmModal

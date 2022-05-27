@@ -1,7 +1,6 @@
 import Category from "./Category/category";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Notes from "./Notes/notes";
 
 const MainApp = () => {
 
@@ -9,6 +8,7 @@ const MainApp = () => {
     const [notebooks, setNotebooks] = useState([])
     const [notes, setNotes] = useState([])
     const [active_notebook, setActiveNotebook] = useState(null)
+
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -22,12 +22,9 @@ const MainApp = () => {
             .then((response) => {
                 setNotebooks(response.data)
                 const last_notebook_id = localStorage.getItem("last_notebook_id")
-                const last_notebook = response.data.find(notebook => notebook.id === last_notebook_id)
-                if(last_notebook) {
-                    setActiveNotebook(last_notebook)
-                } else {
-                    setActiveNotebook(response.data[0])
-                }
+                let last_notebook = response.data.find(notebook => notebook.id === last_notebook_id)
+                last_notebook = last_notebook ? last_notebook : response.data[0]
+                setActiveNotebook(last_notebook)
             }).catch((error) => {
             console.log(error)
         })
@@ -37,8 +34,6 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
-
-
 
     }, []);
 
