@@ -2,7 +2,7 @@ import {Button} from "react-bootstrap";
 
 const ConfirmModal = (props) => {
     return (
-        <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
+        <div className="modal bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
             <div className="bg-white text-center text-dark p-5">
                 <h4>
                     {props.title}

@@ -2,7 +2,7 @@ import {Alert, Button, FloatingLabel, Form} from "react-bootstrap";
 
 const EditModal = (props) => {
     return (
-        <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
+        <div className="modal bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
             <div className="bg-white text-center text-dark p-5">
                 <Form onSubmit={props.edit_category_name_form.handleSubmit} noValidate>
                     <FloatingLabel controlId="edit_category_name" label="Edit category" className="mb-3">
@@ -17,9 +17,9 @@ const EditModal = (props) => {
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{props.edit_category_name_form.errors.name}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <div className="d-flex">
-                        <Button variant="primary" type="submit" > Edit </Button>
-                        <Button variant="secondary" onClick={props.onCancel}> Cancel </Button>
+                    <div className="d-flex justify-content-end">
+                        <Button variant="secondary" onClick={props.onCancel}  className="me-2"> Cancel </Button>
+                        <Button variant="primary" type="submit"> Edit </Button>
                     </div>
                 </Form>
                 {props.form_error &&
