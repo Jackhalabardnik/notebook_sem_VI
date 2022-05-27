@@ -6,14 +6,15 @@ import * as yup from "yup";
 import MenuButton from "../MenuButton/menubutton";
 import ConfirmModal from "../../Modals/confirm_modal";
 import EditModal from "../../Modals/edit_modal";
+import NewNameForm from "../NewNameForm/newnameform";
 
 const new_notebook_validation_schema = yup.object().shape({
-    name: yup.string().required().min(3).label('Name'),
+    name: yup.string().required().min(3).max(50).label('Name'),
     category: yup.string().required().label('Id'),
 });
 
 const edit_notebook_validation_schema = yup.object().shape({
-    name: yup.string().required().min(3).label('Name'),
+    name: yup.string().required().min(3).max(50).label('Name'),
     notebook_id: yup.string().required().label('Category Id')
 });
 
@@ -71,8 +72,7 @@ const Notebook = (props) => {
 
     const handleChange = (change) => {
         notebook_name_form.handleChange(change)
-        setTimeout(() => notebook_name_form.setErrors({}), 3000);
-        setTimeout(() => notebook_name_form.resetForm({}), 10000);
+        setTimeout(() => notebook_name_form.setErrors({}), 10000);
     };
 
     const delete_notebook = (notebook_id) => {
@@ -130,8 +130,8 @@ const Notebook = (props) => {
                     <li key={index}>
                         <MenuButton
                             is_highlighted_mode = { is_notebook_highlighted(notebook._id) }
-                            highlighted_bg = "bg-dark bg-opacity-50"
-                            not_highlighted_bg = "bg-secondary bg-opacity-25"
+                            highlighted_bg = "bg-dark bg-opacity-50 text-white"
+                            not_highlighted_bg = "bg-secondary bg-opacity-25 text-dark"
                             main_button_on_click = {() =>  {
                                 props.setActiveNotebook(notebook)
                                 localStorage.setItem("last_notebook_id", notebook._id)
@@ -143,23 +143,13 @@ const Notebook = (props) => {
                     </li>
                 ))}
                 <li>
-                    <Form onSubmit={notebook_name_form.handleSubmit} noValidate>
-                        <FloatingLabel controlId="inputUserName" label="New notebook" className="mb-3">
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                placeholder="Name"
-                                onChange={handleChange}
-                                value={notebook_name_form.values.name}
-                                isInvalid={notebook_name_form.touched.name && !!notebook_name_form.errors.name}
-                            />
-
-                            <Form.Control.Feedback type="invalid"
-                                                   className="fw-bold">{notebook_name_form.errors.name}</Form.Control.Feedback>
-                        </FloatingLabel>
-                    </Form>
-                    {notebook_name_error &&
-                        <Alert variant="danger" className="text-center m-2">Error: {notebook_name_error}</Alert>}
+                    <NewNameForm
+                        name_form = {notebook_name_form}
+                        control_id = "inputUserName"
+                        name_label = "New notebook name"
+                        onChange = {handleChange}
+                        name_error = {notebook_name_error}
+                    />
                 </li>
             </div>
         </ul>

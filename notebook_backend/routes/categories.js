@@ -9,7 +9,7 @@ router.use(auth)
 
 const validate_put = (data) => {
     const schema = Joi.object({
-        name: Joi.string().required().min(3).label("Category Name"),
+        name: Joi.string().required().min(3).max(50).label("Category Name"),
         category_id: Joi.string().required().label("Category Id"),
     })
     return schema.validate(data)

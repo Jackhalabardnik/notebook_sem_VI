@@ -35,15 +35,14 @@ const Notes = (props) => {
     const handleChange = (change) => {
         note_name_form.handleChange(change)
         setTimeout(() => note_name_form.setErrors({}), 3000);
-        setTimeout(() => note_name_form.resetForm({}), 10000);
     };
 
     return (
         <div className="col-12 h-100 ms-2">
             <ul className="list-unstyled ">
                 {props.notes.map((note, index) => (
-                    <li key={index}>
-                        {note.text}
+                    <li key={index} className="my-1 bg-light">
+                        {note.text} -> {note.createdAt}
                     </li>))}
                 <li>
                     <Form onSubmit={note_name_form.handleSubmit} noValidate>

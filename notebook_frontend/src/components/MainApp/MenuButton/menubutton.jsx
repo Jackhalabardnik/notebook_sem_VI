@@ -1,20 +1,28 @@
 import {Button} from "react-bootstrap";
+import {useState} from "react";
 
 const MenuButton = (props) => {
+    const [show_options, setShowOptions] = useState(false);
+
+    const is_focus = () => {
+        return props.is_highlighted_mode || show_options;
+    }
 
     return (
         <div
-            className={"d-flex justify-content-between " + (props.is_highlighted_mode ?
-                props.highlighted_bg : props.not_highlighted_bg)}>
-            <Button
-                className={"bg-transparent border-0 shadow-none rounded-0 text-start w-100 " + (props.is_highlighted_mode ? "text-white" : "text-dark")}
+            className={"d-flex justify-content-between p-2 text-center align-items-center " + (is_focus() ? props.highlighted_bg : props.not_highlighted_bg)}
+            onPointerEnter={() => setShowOptions(true)}
+            onPointerLeave={() => setShowOptions(false)}
+        >
+            <div
+                className="bg-transparent border-0 shadow-none rounded-0 text-start w-100"
                 onClick={props.main_button_on_click}>
 
                 {props.main_button_text}
 
-            </Button>
+            </div>
             {
-                props.is_highlighted_mode &&
+                show_options &&
                 <div className="d-flex">
                     <Button variant="secondary" className="shadow-none rounded-0" type="button"
                             data-toggle="tooltip"
