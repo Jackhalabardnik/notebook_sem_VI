@@ -1,6 +1,9 @@
 import {useState} from "react";
-import {Alert, Button, FloatingLabel, Form, Modal} from "react-bootstrap";
+import {Alert, FloatingLabel, Form} from "react-bootstrap";
 import Notebook from "../Notebook/notebook";
+import MenuButton from "../MenuButton/menubutton";
+import ConfirmModal from "../../Modals/confirm_modal";
+import EditModal from "../../Modals/edit_modal";
 import {useFormik} from "formik";
 import axios from "axios";
 import * as yup from "yup";
@@ -97,81 +100,43 @@ const Category = (props) => {
         setEdit_modal_open(true)
     }
 
+    const open_delete_category_modal = (category_id) => {
+        setDelete_category_id(category_id);
+        setDelete_modal_open(true);
+    }
+
     return (<div className="col-12 col-md-2 h-100">
         {
             delete_modal_open &&
-            <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
-                <div className="bg-white text-center text-dark p-5">
-                    <h4>Are you sure you want to delete this category?</h4>
-                    <button className="btn btn-danger" onClick={() => {
-                        delete_category(delete_category_id)
-                        setDelete_modal_open(false)
-                    }}>Yes</button>
-                    <button className="btn btn-secondary ml-2" onClick={() => setDelete_modal_open(false)}>No</button>
-                </div>
-            </div>
+            <ConfirmModal
+                title = "Are you sure you want to delete this category?"
+                onConfirm = {() => {
+                    delete_category(delete_category_id)
+                    setDelete_modal_open(false)
+                }}
+                onCancel = {() => setDelete_modal_open(false)}
+            />
         }
         {
-            edit_modal_open && <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
-                <div className="bg-white text-center text-dark p-5">
-                    <Form onSubmit={edit_category_name_form.handleSubmit} noValidate>
-                        <FloatingLabel controlId="edit_category_name" label="Edit category" className="mb-3">
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                placeholder="Name"
-                                onChange={edit_category_name_form.handleChange}
-                                value={edit_category_name_form.values.name}
-                                isInvalid={edit_category_name_form.touched.name && !!edit_category_name_form.errors.name}
-                            />
-                            <Form.Control.Feedback type="invalid"
-                                                   className="fw-bold">{edit_category_name_form.errors.name}</Form.Control.Feedback>
-                        </FloatingLabel>
-                        <div className="d-flex">
-                            <Button variant="primary" type="submit" > Edit </Button>
-                            <Button variant="secondary" onClick={() => setEdit_modal_open(false)}> Cancel </Button>
-                        </div>
-                    </Form>
-                    {category_name_error &&
-                        <Alert variant="danger" className="text-center m-2">Error: {category_name_error}</Alert>}
-                </div>
-            </div>
+            edit_modal_open &&
+            <EditModal
+                edit_category_name_form = {edit_category_name_form}
+                form_error = {category_name_error}
+                onCancel = {() => setEdit_modal_open(false)}
+            />
         }
         <ul className="list-unstyled ">
             {props.categories.map((category, index) => (
                 <li key={index}>
-                    <div
-                        className={"d-flex justify-content-between bg-dark " + (open_categories.includes(category.name) ?
-                            "bg-opacity-75" : "bg-opacity-25")}>
-                        <Button
-                            className={"bg-transparent border-0 shadow-none rounded-0 text-start w-100 " + (open_categories.includes(category.name) ? "text-white" : "text-dark")}
-                            onClick={() => switch_category(category.name)}
-                        >
-                            {category.name}
-
-                        </Button>
-                        {
-                            open_categories.includes(category.name) &&
-                            <div className="d-flex">
-                                <Button variant="secondary" className="shadow-none rounded-0" type="button"
-                                        data-toggle="tooltip"
-                                        data-placement="top" title="Delete" onClick={() => open_edit_category_modal(category._id, category.name)}>
-                                    <img src="/pencil-square.svg" alt="Trash icon"
-                                         style={{filter: "invert(100%)"}}></img>
-                                </Button>
-                                <Button variant="danger" className="shadow-none rounded-0" type="button"
-                                        data-toggle="tooltip"
-                                        data-placement="top" title="Delete"
-                                        onClick={() => {
-                                            setDelete_category_id(category._id);
-                                            setDelete_modal_open(true);
-                                        }}>
-                                    <img src="/trash3.svg" alt="Trash icon" style={{filter: "invert(100%)"}}></img>
-                                </Button>
-                            </div>
-                        }
-
-                    </div>
+                    <MenuButton
+                        is_highlighted_mode = { open_categories.includes(category.name) }
+                        highlighted_bg = "bg-opacity-75"
+                        not_highlighted_bg = "bg-opacity-25"
+                        main_button_on_click = {() => switch_category(category.name)}
+                        main_button_text = {category.name}
+                        edit_button_on_click = {() => open_edit_category_modal(category._id, category.name)}
+                        delete_button_on_click = {() => open_delete_category_modal(category._id) }
+                        />
                     {
                         open_categories.includes(category.name) &&
                         <Notebook
