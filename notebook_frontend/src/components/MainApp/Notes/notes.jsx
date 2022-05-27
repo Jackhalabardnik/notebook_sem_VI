@@ -38,32 +38,33 @@ const Notes = (props) => {
         setTimeout(() => note_name_form.resetForm({}), 10000);
     };
 
-    return (<div className="col-12 col-md-2 h-100">
-        <ul className="list-unstyled ">
-            {props.notes.map((note, index) => (
-                <li key={index}>
-                    {note.text}
-                </li>))}
-            <li>
-                <Form onSubmit={note_name_form.handleSubmit} noValidate>
-                    <FloatingLabel controlId="inputUserName" label="New category" className="mb-3">
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            onChange={handleChange}
-                            value={note_name_form.values.name}
-                            isInvalid={note_name_form.touched.name && !!note_name_form.errors.name}
-                        />
-                        <Form.Control.Feedback type="invalid"
-                                               className="fw-bold">{note_name_form.errors.name}</Form.Control.Feedback>
-                    </FloatingLabel>
-                </Form>
-                {note_name_error &&
-                    <Alert variant="danger" className="text-center m-2">Error: {note_name_error}</Alert>}
-            </li>
-        </ul>
-    </div>);
+    return (
+        <div className="col-12 h-100 ms-2">
+            <ul className="list-unstyled ">
+                {props.notes.map((note, index) => (
+                    <li key={index}>
+                        {note.text}
+                    </li>))}
+                <li>
+                    <Form onSubmit={note_name_form.handleSubmit} noValidate>
+                        <FloatingLabel controlId="inputUserName" label="New note" className="mb-3">
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                onChange={handleChange}
+                                value={note_name_form.values.name}
+                                isInvalid={note_name_form.touched.name && !!note_name_form.errors.name}
+                            />
+                            <Form.Control.Feedback type="invalid"
+                                                   className="fw-bold">{note_name_form.errors.name}</Form.Control.Feedback>
+                        </FloatingLabel>
+                    </Form>
+                    {note_name_error &&
+                        <Alert variant="danger" className="text-center m-2">Error: {note_name_error}</Alert>}
+                </li>
+            </ul>
+        </div>);
 };
 
 export default Notes;

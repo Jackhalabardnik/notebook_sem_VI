@@ -4,24 +4,11 @@ const auth = require("../middleware/auth")
 
 router.use(auth)
 
-// GET /api/notes for notebook with pagination
-router.get("/", async (req, res) => {
-    const {page = 0} = req.query
-    const notes = await Note.find({user: req.user._id})
-        .skip(page * 20)
-        .limit(20)
+// GET /api/notes for notebook
+router.get("/:id", async (req, res) => {
+    const notes = await Note.find({user: req.user._id, notebook: req.params.id})
     if (!notes) { res.status(404).send("No notes found") }
     res.send(notes)
-})
-
-// GET /api/notes/:id for notebook
-router.get("/:id", async (req, res) => {
-    const note = await Note.findOne({
-        _id: req.params.id,
-        user: req.user._id
-    })
-    if (!note) return res.status(404).send("Note not found")
-    res.send(note)
 })
 
 // POST /api/notes for notebook

@@ -1,6 +1,7 @@
 import Category from "./Category/category";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Notes from "./Notes/notes";
 
 const MainApp = () => {
 
@@ -28,14 +29,20 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
-        axios.get(`http://localhost:8080/api/note`, {headers: {"authorization": `${token}`}})
-            .then((response) => {
-                setNotes(response.data)
-            }).catch((error) => {
-            console.log(error)
-        })
 
     }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if(active_notebook) {
+            axios.get(`http://localhost:8080/api/note/${active_notebook._id}`, {body: {notebook_id: active_notebook._id}, headers: {"authorization": `${token}`}})
+                .then((response) => {
+                    setNotes(response.data)
+                }).catch((error) => {
+                console.log(error)
+            })
+        }
+    }, [active_notebook]);
 
     return (
         <div className="d-flex w-100 h-100">
@@ -47,8 +54,15 @@ const MainApp = () => {
                 open_categories={[]}
                 active_notebook={active_notebook}
                 setActiveNotebook={setActiveNotebook}
+                notes={notes}
+                setNotes={setNotes}
             />
             <div className="w-100">
+                <Notes
+                    active_notebook={active_notebook}
+                    notes={notes}
+                    setNotes={setNotes}
+                />
             </div>
 
         </div>);
