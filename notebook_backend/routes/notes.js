@@ -1,8 +1,17 @@
 const router = require("express").Router()
 const {Note, validate} = require("../models/note")
 const auth = require("../middleware/auth")
+const Joi = require("joi");
 
 router.use(auth)
+
+const validate_put = (data) => {
+    const schema = Joi.object({
+        text: Joi.string().required().min(1).max(2000).label("Text"),
+        note_id: Joi.string().required().label("Note Id"),
+    })
+    return schema.validate(data)
+}
 
 // GET /api/notes for notebook
 router.get("/:id", async (req, res) => {
@@ -18,7 +27,8 @@ router.post("/", async (req, res) => {
         const note = new Note({
             text: req.body.text,
             user: req.user._id,
-            notebook: req.body.notebook._id
+            notebook: req.body.notebook_id,
+            category: req.body.category_id
         })
         await note.save()
         res.send(note)
@@ -27,12 +37,12 @@ router.post("/", async (req, res) => {
 
 // PUT /api/notes/:id for notebook
 router.put("/:id", async (req, res) => {
-    const {error} = validate(req.body)
+    const {error} = validate_put(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     const note = await Note.findOneAndUpdate({
-        _id: req.body._id,
+        _id: req.params.id,
         user: req.user._id
-    }, {text: req.body.text, updatedAt: Date.now }, {new: true})
+    }, {text: req.body.text, updatedAt: Date.now() }, {new: true})
     if (!note) return res.status(404).send("Note not found")
     res.send(note)
 })

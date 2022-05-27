@@ -6,7 +6,7 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 500
+        maxlength: 2000
     },
     createdAt: {
         type: Date,
@@ -37,7 +37,9 @@ const Note = mongoose.model("Note", noteSchema, "Note")
 
 const validate = (data) => {
     const schema = Joi.object({
-        name: Joi.string().required().label("Note text"),
+        text: Joi.string().required().min(1).max(2000).label("Note text"),
+        category_id: Joi.string().optional().label("Category Id"),
+        notebook_id: Joi.string().optional().label("Notebook Id"),
     })
     return schema.validate(data)
 }

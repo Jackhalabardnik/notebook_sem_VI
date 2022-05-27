@@ -1,9 +1,8 @@
 import {useState} from "react";
-import {Alert, FloatingLabel, Form} from "react-bootstrap";
 import Notebook from "../Notebook/notebook";
 import MenuButton from "../MenuButton/menubutton";
 import ConfirmModal from "../../Modals/confirm_modal";
-import NewNameForm from "../NewNameForm/newnameform";
+import NewStringForm from "../NewNameForm/newStringForm";
 import EditModal from "../../Modals/edit_modal";
 import {useFormik} from "formik";
 import axios from "axios";
@@ -25,6 +24,7 @@ const Category = (props) => {
     const [edit_modal_open, setEdit_modal_open] = useState(false)
     const [delete_modal_open, setDelete_modal_open] = useState(false)
     const [delete_category_id, setDelete_category_id] = useState('')
+    const [category_form_timeout_id, setCategory_form_timeout_id] = useState(null)
 
     const switch_category = (category_name) => {
         if (open_categories.includes(category_name)) {
@@ -79,7 +79,10 @@ const Category = (props) => {
 
     const handleChange = (change) => {
         new_category_name_form.handleChange(change)
-        setTimeout(() => new_category_name_form.setErrors({}), 10000);
+        if(category_form_timeout_id) {
+            clearTimeout(category_form_timeout_id)
+        }
+        setCategory_form_timeout_id(setTimeout(() => new_category_name_form.setErrors({}), 10000));
     };
 
     const delete_category = (category_id) => {
@@ -120,8 +123,15 @@ const Category = (props) => {
         {
             edit_modal_open &&
             <EditModal
-                edit_category_name_form={edit_category_name_form}
-                form_error={category_edit_name_error}
+                edit_form = {edit_category_name_form}
+                name = "name"
+                name_label = "New category name"
+                value = {edit_category_name_form.values.name}
+                isInvalid = {edit_category_name_form.touched.name && edit_category_name_form.errors.name}
+                onChange = {edit_category_name_form.handleChange}
+                form_style = "border-0 "
+                form_error = {edit_category_name_form.errors.name}
+                edit_error = {category_edit_name_error}
                 onCancel={() => setEdit_modal_open(false)}
             />
         }
@@ -149,11 +159,15 @@ const Category = (props) => {
                     }
                 </li>))}
             <li>
-                <NewNameForm
+                <NewStringForm
                     name_form = {new_category_name_form}
-                    control_id = "new_category_name_form"
+                    name = "name"
                     name_label = "New category name"
+                    value = {new_category_name_form.values.name}
+                    isInvalid = {new_category_name_form.touched.name && new_category_name_form.errors.name}
                     onChange = {handleChange}
+                    form_style = "border-0 "
+                    form_error = {new_category_name_form.errors.name}
                     name_error = {category_name_error}
                 />
             </li>

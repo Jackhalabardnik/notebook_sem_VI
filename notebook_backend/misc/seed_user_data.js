@@ -55,8 +55,8 @@ async function seed_notes_for_user(user) {
                     category: categories[i]._id,
                     notebook: notebooks[j]._id,
                     text: generate_message(),
-                    created_at: random_created_at,
-                    updated_at: random_updated_at
+                    createdAt: random_created_at,
+                    updatedAt: random_updated_at
                 });
             }
         }

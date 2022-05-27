@@ -1,4 +1,3 @@
-import {Alert, FloatingLabel, Form} from "react-bootstrap";
 import {useFormik} from "formik";
 import axios from "axios";
 import {useState} from "react";
@@ -6,7 +5,7 @@ import * as yup from "yup";
 import MenuButton from "../MenuButton/menubutton";
 import ConfirmModal from "../../Modals/confirm_modal";
 import EditModal from "../../Modals/edit_modal";
-import NewNameForm from "../NewNameForm/newnameform";
+import NewStringForm from "../NewNameForm/newStringForm";
 
 const new_notebook_validation_schema = yup.object().shape({
     name: yup.string().required().min(3).max(50).label('Name'),
@@ -24,6 +23,7 @@ const Notebook = (props) => {
     const [edit_modal_open, setEdit_modal_open] = useState(false)
     const [delete_modal_open, setDelete_modal_open] = useState(false)
     const [delete_notebook_id, setDelete_notebook_id] = useState('')
+    const [notebook_form_timout_id, setNotebook_form_timout_id] = useState(null)
 
     const notebook_name_form = useFormik({
         initialValues: {
@@ -72,7 +72,10 @@ const Notebook = (props) => {
 
     const handleChange = (change) => {
         notebook_name_form.handleChange(change)
-        setTimeout(() => notebook_name_form.setErrors({}), 10000);
+        if(notebook_form_timout_id) {
+            clearTimeout(notebook_form_timout_id)
+        }
+        setNotebook_form_timout_id(setTimeout(() => notebook_name_form.setErrors({}), 10000));
     };
 
     const delete_notebook = (notebook_id) => {
@@ -119,8 +122,15 @@ const Notebook = (props) => {
             {
                 edit_modal_open &&
                 <EditModal
-                    edit_category_name_form ={edit_notebook_name_form}
-                    form_error ={notebook_edit_name_error}
+                    edit_form = {edit_notebook_name_form}
+                    name = "name"
+                    name_label = "New category name"
+                    value = {edit_notebook_name_form.values.name}
+                    isInvalid = {edit_notebook_name_form.touched.name && edit_notebook_name_form.errors.name}
+                    onChange = {edit_notebook_name_form.handleChange}
+                    form_style = ""
+                    form_error = {edit_notebook_name_form.errors.name}
+                    edit_error = {notebook_edit_name_error}
                     onCancel = {() => setEdit_modal_open(false)}
                 />
             }
@@ -143,11 +153,16 @@ const Notebook = (props) => {
                     </li>
                 ))}
                 <li>
-                    <NewNameForm
+                    <NewStringForm
                         name_form = {notebook_name_form}
+                        name = "name"
                         control_id = "inputUserName"
                         name_label = "New notebook name"
+                        value = {notebook_name_form.values.name}
+                        isInvalid = {notebook_name_form.touched.name && notebook_name_form.errors.name}
                         onChange = {handleChange}
+                        form_style = "border-0 "
+                        form_error = {notebook_name_form.errors.name}
                         name_error = {notebook_name_error}
                     />
                 </li>

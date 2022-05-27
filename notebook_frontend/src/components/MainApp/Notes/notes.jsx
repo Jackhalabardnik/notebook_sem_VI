@@ -1,23 +1,38 @@
 import {useState} from "react";
-import {Alert, FloatingLabel, Form} from "react-bootstrap";
 import {useFormik} from "formik";
 import axios from "axios";
 import * as yup from "yup";
+import MenuButton from "../MenuButton/menubutton";
+import NewStringForm from "../NewNameForm/newStringForm";
+import EditModal from "../../Modals/edit_modal";
+import ConfirmModal from "../../Modals/confirm_modal";
 
-const notebook_validation_schema = yup.object().shape({
-    name: yup.string().required().min(3).label('Name'),
-    category: yup.string().required().label('Category Id'),
-    notebook: yup.string().required().label('Notebook Id'),
+const note_validation_schema = yup.object().shape({
+    text: yup.string().required().min(1).max(2000).label('Text'),
+    category_id: yup.string().required().label('Category Id'),
+    notebook_id: yup.string().required().label('Notebook Id'),
+});
+
+const edit_note_validation_schema = yup.object().shape({
+    text: yup.string().required().min(1).max(2000).label('Name'),
+    note_id: yup.string().required().label('Note Id'),
 });
 
 const Notes = (props) => {
     const [note_name_error, setNote_name_error] = useState('')
+    const [note_form_timeout_id, setNote_form_timeout_id] = useState(null)
+    const [edit_modal_open, setEdit_modal_open] = useState(false)
+    const [delete_modal_open, setDelete_modal_open] = useState(false)
+    const [delete_note_id, setDelete_note_id] = useState('')
+    const [note_edit_name_error, setNote_edit_name_error] = useState('')
 
     const note_name_form = useFormik({
         initialValues: {
-            name: ''
+            text: '',
+            category_id: '',
+            notebook_id: '',
         },
-        validationSchema: notebook_validation_schema,
+        validationSchema: note_validation_schema,
         onSubmit: values => {
             const token = localStorage.getItem("token")
             axios.post("http://localhost:8080/api/note", values, {headers: {"authorization": `${token}`}})
@@ -32,35 +47,148 @@ const Notes = (props) => {
         },
     });
 
+    const edit_note_name_form = useFormik({
+        initialValues: {
+            text: '',
+            note_id: '',
+        },
+        validationSchema: edit_note_validation_schema,
+        onSubmit: values => {
+            const token = localStorage.getItem("token")
+            axios.put(`http://localhost:8080/api/note/${edit_note_name_form.values.note_id}`, values, {headers: {"authorization": `${token}`}})
+                .then(response => {
+                    const notes = [...props.notes]
+                    const index = notes.findIndex(note => note._id === edit_note_name_form.values.note_id)
+                    notes.splice(index, 1, response.data)
+                    props.setNotes(notes)
+                    setEdit_modal_open(false)
+                })
+                .catch(error => {
+                    if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                        setNote_edit_name_error(error.response.data)
+                    }
+                })
+        },
+    });
+
     const handleChange = (change) => {
+
+        if(props.active_notebook){
+            note_name_form.setValues({
+                category_id: props.active_notebook.category,
+                notebook_id: props.active_notebook._id,
+            })
+        }
+
         note_name_form.handleChange(change)
-        setTimeout(() => note_name_form.setErrors({}), 3000);
+        if(note_form_timeout_id) {
+            clearTimeout(note_form_timeout_id)
+        }
+        setNote_form_timeout_id(setTimeout(() => note_name_form.setErrors({}), 10000));
     };
+
+    const delete_note = (note_id) => {
+        const token = localStorage.getItem("token")
+        axios.delete(`http://localhost:8080/api/note/${note_id}`, {
+            data: { id: note_id},
+            headers: {"authorization": `${token}`}
+        })
+            .then(() => {
+                props.setNotes(props.notes.filter(note => note._id !== note_id))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const open_edit_note_modal = (note_id, note_name) => {
+        edit_note_name_form.setValues({text: note_name, note_id: note_id})
+        setEdit_modal_open(true)
+    }
+
+    const open_delete_note_modal = (note_id) => {
+        setDelete_note_id(note_id)
+        setDelete_modal_open(true)
+    }
+
+    const message_text = (note) => {
+        return (
+            <div className="d-flex flex-column">
+                <div className="d-flex">
+                    <div>
+                        {note.createdAt}
+                    </div>
+                    { !!note.updatedAt &&
+                        <div className="ms-2">
+                            (updated at {note.updatedAt} )
+                        </div>
+                    }
+                </div>
+                <div>
+                    {note.text}
+                </div>
+
+            </div>
+        );
+    }
 
     return (
         <div className="col-12 h-100 ms-2">
+            {
+                delete_modal_open &&
+                <ConfirmModal
+                    title = "Are you sure you want to delete this note?"
+                    onConfirm = {() => {
+                        delete_note(delete_note_id)
+                        setDelete_modal_open(false)
+                    }}
+                    onCancel = {() => setDelete_modal_open(false)}
+                />
+            }
+            {
+                edit_modal_open &&
+                <EditModal
+                    edit_form = {edit_note_name_form}
+                    name = "text"
+                    name_label = "New category name"
+                    value = {edit_note_name_form.values.text}
+                    isInvalid = {edit_note_name_form.touched.text && edit_note_name_form.errors.text}
+                    onChange = {edit_note_name_form.handleChange}
+                    form_style = "border-1"
+                    modal_style = "w-100 mx-4"
+                    form_error = {edit_note_name_form.errors.text}
+                    edit_error = {note_edit_name_error}
+                    onCancel = {() => setEdit_modal_open(false)}
+                />
+            }
+
             <ul className="list-unstyled ">
                 {props.notes.map((note, index) => (
                     <li key={index} className="my-1 bg-light">
-                        {note.text} -> {note.createdAt}
+                        <MenuButton
+                            is_highlighted_mode={false}
+                            highlighted_bg="bg-dark bg-opacity-25 text-dark"
+                            not_highlighted_bg="bg-dark bg-opacity-25 text-dark"
+                            main_button_on_click={() => {}}
+                            main_button_text={message_text(note)}
+                            edit_button_on_click={() => open_edit_note_modal(note._id, note.text)}
+                            delete_button_on_click={() => open_delete_note_modal(note._id)}
+                        />
                     </li>))}
+
                 <li>
-                    <Form onSubmit={note_name_form.handleSubmit} noValidate>
-                        <FloatingLabel controlId="inputUserName" label="New note" className="mb-3">
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                placeholder="Name"
-                                onChange={handleChange}
-                                value={note_name_form.values.name}
-                                isInvalid={note_name_form.touched.name && !!note_name_form.errors.name}
-                            />
-                            <Form.Control.Feedback type="invalid"
-                                                   className="fw-bold">{note_name_form.errors.name}</Form.Control.Feedback>
-                        </FloatingLabel>
-                    </Form>
-                    {note_name_error &&
-                        <Alert variant="danger" className="text-center m-2">Error: {note_name_error}</Alert>}
+                    <NewStringForm
+                        name_form = {note_name_form}
+                        name = "text"
+                        control_id = "text_form"
+                        name_label = "Write here"
+                        value = {note_name_form.values.text}
+                        isInvalid = {note_name_form.touched.text && note_name_form.errors.text}
+                        onChange = {handleChange}
+                        form_style = "border-0 "
+                        form_error = {note_name_form.errors.text}
+                        name_error = {note_name_error}
+                    />
                 </li>
             </ul>
         </div>);

@@ -19,6 +19,7 @@ const MainApp = () => {
             }).catch((error) => {
             console.log(error)
         })
+
         axios.get(`http://localhost:8080/api/notebook`, {headers: {"authorization": `${token}`}})
             .then((response) => {
                 setNotebooks(response.data)
@@ -27,8 +28,9 @@ const MainApp = () => {
                 last_notebook = last_notebook ? last_notebook : response.data[0]
                 setActiveNotebook(last_notebook)
             }).catch((error) => {
-            console.log(error)
-        })
+                console.log(error)
+            })
+
 
     }, []);
 
