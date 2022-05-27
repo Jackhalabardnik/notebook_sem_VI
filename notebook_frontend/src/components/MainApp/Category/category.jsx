@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Alert, Button, FloatingLabel, Form} from "react-bootstrap";
+import {Alert, Button, FloatingLabel, Form, Modal} from "react-bootstrap";
 import Notebook from "../Notebook/notebook";
 import {useFormik} from "formik";
 import axios from "axios";
@@ -18,6 +18,8 @@ const Category = (props) => {
     const [open_categories, setOpen_categories] = useState(props.open_categories)
     const [category_name_error, setCategory_name_error] = useState('')
     const [edit_modal_open, setEdit_modal_open] = useState(false)
+    const [delete_modal_open, setDelete_modal_open] = useState(false)
+    const [delete_category_id, setDelete_category_id] = useState('')
 
     const switch_category = (category_name) => {
         if (open_categories.includes(category_name)) {
@@ -97,6 +99,19 @@ const Category = (props) => {
 
     return (<div className="col-12 col-md-2 h-100">
         {
+            delete_modal_open &&
+            <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
+                <div className="bg-white text-center text-dark p-5">
+                    <h4>Are you sure you want to delete this category?</h4>
+                    <button className="btn btn-danger" onClick={() => {
+                        delete_category(delete_category_id)
+                        setDelete_modal_open(false)
+                    }}>Yes</button>
+                    <button className="btn btn-secondary ml-2" onClick={() => setDelete_modal_open(false)}>No</button>
+                </div>
+            </div>
+        }
+        {
             edit_modal_open && <div className="modal-backdrop fade show d-flex justify-content-center align-items-center">
                 <div className="bg-white text-center text-dark p-5">
                     <Form onSubmit={edit_category_name_form.handleSubmit} noValidate>
@@ -147,7 +162,10 @@ const Category = (props) => {
                                 <Button variant="danger" className="shadow-none rounded-0" type="button"
                                         data-toggle="tooltip"
                                         data-placement="top" title="Delete"
-                                        onClick={() => delete_category(category._id)}>
+                                        onClick={() => {
+                                            setDelete_category_id(category._id);
+                                            setDelete_modal_open(true);
+                                        }}>
                                     <img src="/trash3.svg" alt="Trash icon" style={{filter: "invert(100%)"}}></img>
                                 </Button>
                             </div>
