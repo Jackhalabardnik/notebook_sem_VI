@@ -14,22 +14,23 @@ const MainApp = () => {
     useEffect(() => {
         const token = localStorage.getItem("token")
         axios.get(`http://localhost:8080/api/category`, {headers: {"authorization": `${token}`}})
-            .then((response) => {
-                setCategories(response.data)
+            .then((response_category) => {
+                setCategories(response_category.data)
+                axios.get(`http://localhost:8080/api/notebook`, {headers: {"authorization": `${token}`}})
+                    .then((response_notebook) => {
+                        setNotebooks(response_notebook.data)
+                        const last_notebook_id = localStorage.getItem("last_notebook_id")
+                        let last_notebook = response_notebook.data.find(notebook => notebook.id === last_notebook_id)
+                        last_notebook = last_notebook ? last_notebook : response_notebook.data[1]
+                        setActiveNotebook(last_notebook)
+                    }).catch((error) => {
+                    console.log(error)
+                })
             }).catch((error) => {
             console.log(error)
         })
 
-        axios.get(`http://localhost:8080/api/notebook`, {headers: {"authorization": `${token}`}})
-            .then((response) => {
-                setNotebooks(response.data)
-                const last_notebook_id = localStorage.getItem("last_notebook_id")
-                let last_notebook = response.data.find(notebook => notebook.id === last_notebook_id)
-                last_notebook = last_notebook ? last_notebook : response.data[0]
-                setActiveNotebook(last_notebook)
-            }).catch((error) => {
-                console.log(error)
-            })
+
 
 
     }, []);
@@ -37,7 +38,7 @@ const MainApp = () => {
     useEffect(() => {
         const token = localStorage.getItem("token")
         if(active_notebook) {
-            axios.get(`http://localhost:8080/api/note/${active_notebook._id}`, {body: {notebook_id: active_notebook._id}, headers: {"authorization": `${token}`}})
+            axios.get(`http://localhost:8080/api/note/${active_notebook._id}`, {headers: {"authorization": `${token}`}})
                 .then((response) => {
                     setNotes(response.data)
                 }).catch((error) => {
@@ -53,7 +54,7 @@ const MainApp = () => {
                 setCategories={setCategories}
                 notebooks={notebooks}
                 setNotebooks={setNotebooks}
-                open_categories={[]}
+                open_categories={[-1]}
                 active_notebook={active_notebook}
                 setActiveNotebook={setActiveNotebook}
                 notes={notes}

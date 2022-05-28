@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Notebook from "../Notebook/notebook";
 import MenuButton from "../MenuButton/menubutton";
 import ConfirmModal from "../../Modals/confirm_modal";
@@ -26,9 +26,18 @@ const Category = (props) => {
     const [delete_category_id, setDelete_category_id] = useState('')
     const [category_form_timeout_id, setCategory_form_timeout_id] = useState(null)
 
+
+    useEffect(() => {
+        if(!!props.active_notebook && open_categories.includes(-1)) {
+            const active_category = props.categories.find(category => category._id === props.active_notebook.category)
+            setOpen_categories([active_category.name])
+        }
+
+    }, [props.active_notebook, props.categories, open_categories])
+
     const switch_category = (category_name) => {
         if (open_categories.includes(category_name)) {
-            setOpen_categories(open_categories.filter(category => category !== category_name))
+            setOpen_categories(open_categories.filter(category => category !== category_name || category === -1))
         } else {
             setOpen_categories([...open_categories, category_name])
         }
