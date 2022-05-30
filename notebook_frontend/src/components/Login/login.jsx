@@ -36,7 +36,7 @@ const Login = () => {
         <div>
             <Form onSubmit={formik.handleSubmit} noValidate className="p-3">
                 <div className="d-flex flex-column flex-md-row  justify-content-end">
-                    <FloatingLabel controlId="inputUserName" label="Email" className="me-md-3">
+                    <FloatingLabel controlId="inputUserName" label="Email" className="me-md-3  text-white">
                         <Form.Control
                             type="email"
                             name="email"
@@ -44,10 +44,11 @@ const Login = () => {
                             onChange={formik.handleChange}
                             value={formik.values.email}
                             isInvalid={formik.touched.email && !!formik.errors.email}
+                            className="shadow-none bg-light bg-opacity-25 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid" className="fw-bold bg-dark text-center bg-opacity-75 rounded-3 text-white" >{formik.errors.email}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <FloatingLabel controlId="inputPassword" label="Password" className="me-md-3 my-md-0 my-3">
+                    <FloatingLabel controlId="inputPassword" label="Password" className="me-md-3 my-md-0 my-3  text-white">
                         <Form.Control
                             type="password"
                             name="password"
@@ -55,6 +56,7 @@ const Login = () => {
                             onChange={formik.handleChange}
                             value={formik.values.password}
                             isInvalid={formik.touched.password && !!formik.errors.password}
+                            className="shadow-none bg-light bg-opacity-25 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid" className="fw-bold bg-dark text-center bg-opacity-75 rounded-3 text-white" >{formik.errors.password}</Form.Control.Feedback>
                     </FloatingLabel>

@@ -82,7 +82,7 @@ const UserEdit = () => {
             }
             <Form onSubmit={formik.handleSubmit} noValidate>
                 <div>
-                    <FloatingLabel controlId="inputUserName" label="New username" className="mb-3">
+                    <FloatingLabel controlId="username" label="New username" className="mb-3 text-white">
                         <Form.Control
                             type="text"
                             name="username"
@@ -90,11 +90,12 @@ const UserEdit = () => {
                             onChange={formik.handleChange}
                             value={formik.values.username}
                             isInvalid={formik.touched.username && !!formik.errors.username}
+                            className="shadow-none bg-light bg-opacity-10 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{formik.errors.username}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <FloatingLabel controlId="inputUserName" label="New email" className="mb-3">
+                    <FloatingLabel controlId="email" label="New email" className="mb-3 text-white">
                         <Form.Control
                             type="email"
                             name="email"
@@ -102,11 +103,12 @@ const UserEdit = () => {
                             onChange={formik.handleChange}
                             value={formik.values.email}
                             isInvalid={formik.touched.email && !!formik.errors.email}
+                            className="shadow-none bg-light bg-opacity-10 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{formik.errors.email}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <FloatingLabel controlId="inputPassword" label="Old password" className="mb-3">
+                    <FloatingLabel controlId="old_password" label="Old password" className="mb-3 text-white">
                         <Form.Control
                             type="password"
                             name="old_password"
@@ -114,11 +116,12 @@ const UserEdit = () => {
                             onChange={formik.handleChange}
                             value={formik.values.old_password}
                             isInvalid={formik.touched.old_password && !!formik.errors.old_password}
+                            className="shadow-none bg-light bg-opacity-10 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{formik.errors.old_password}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <FloatingLabel controlId="inputPassword" label="New password" className="mb-3">
+                    <FloatingLabel controlId="password" label="New password" className="mb-3 text-white">
                         <Form.Control
                             type="password"
                             name="password"
@@ -126,11 +129,12 @@ const UserEdit = () => {
                             onChange={formik.handleChange}
                             value={formik.values.password}
                             isInvalid={formik.touched.password && !!formik.errors.password}
+                            className="shadow-none bg-light bg-opacity-10 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{formik.errors.password}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <FloatingLabel controlId="inputPassword" label="Retype new password" className="mb-3">
+                    <FloatingLabel controlId="r_password" label="Retype new password" className="mb-3 text-white">
                         <Form.Control
                             type="password"
                             name="r_password"
@@ -138,11 +142,12 @@ const UserEdit = () => {
                             onChange={formik.handleChange}
                             value={formik.values.r_password}
                             isInvalid={formik.touched.r_password && !!formik.errors.r_password}
+                            className="shadow-none bg-light bg-opacity-10 border-0 text-white"
                         />
                         <Form.Control.Feedback type="invalid"
                                                className="fw-bold">{formik.errors.r_password}</Form.Control.Feedback>
                     </FloatingLabel>
-                    <Button type="submit" variant="primary" className="col-12">Update your data</Button>
+                    <Button type="submit" variant="success" className="col-12">Update your data</Button>
                     <Link to="/">
                         <Button variant="secondary" className="w-100 my-3">
                             Go back
