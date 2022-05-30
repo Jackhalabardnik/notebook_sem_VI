@@ -141,7 +141,7 @@ const Notebook = (props) => {
                         <MenuButton
                             is_highlighted_mode = { is_notebook_highlighted(notebook._id) }
                             highlighted_bg = "bg-dark bg-opacity-50 text-white"
-                            not_highlighted_bg = "bg-secondary bg-opacity-25 text-dark"
+                            not_highlighted_bg = "text-white"
                             main_button_on_click = {() =>  {
                                 props.setActiveNotebook(notebook)
                                 localStorage.setItem("last_notebook_id", notebook._id)
@@ -152,7 +152,7 @@ const Notebook = (props) => {
                         />
                     </li>
                 ))}
-                <li>
+                <li className="m-2 mb-3 ms-0">
                     <NewStringForm
                         name_form = {notebook_name_form}
                         name = "name"
@@ -161,7 +161,8 @@ const Notebook = (props) => {
                         value = {notebook_name_form.values.name}
                         isInvalid = {notebook_name_form.touched.name && notebook_name_form.errors.name}
                         onChange = {handleChange}
-                        form_style = "border-0 "
+                        form_style = "shadow-none bg-light bg-opacity-75 border-0 text-dark"
+                        div_style="col-12 col-sm-4 col-md-10 col-lg-12 col-xxl-10"
                         form_error = {notebook_name_form.errors.name}
                         name_error = {notebook_name_error}
                     />

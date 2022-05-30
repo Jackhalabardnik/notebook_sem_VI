@@ -3,7 +3,7 @@ import {Alert, Form} from "react-bootstrap";
 const NewStringForm = (props) => {
 
     return(
-        <div>
+        <div className={props.div_style}>
             <Form onSubmit={props.name_form.handleSubmit} noValidate>
                     <Form.Control
                         type="text"

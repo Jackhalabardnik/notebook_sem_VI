@@ -159,7 +159,7 @@ const Notes = (props) => {
     }
 
     return (
-        <div className="mx-2 w-100 d-flex flex-column justify-content-between bg-dark bg-opacity-75 text-white">
+        <div className="mx-2 w-100 d-flex flex-column justify-content-between text-white">
             {
                 delete_modal_open &&
                 <ConfirmModal

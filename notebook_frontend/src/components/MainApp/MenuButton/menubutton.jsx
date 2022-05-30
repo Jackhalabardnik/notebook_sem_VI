@@ -3,6 +3,8 @@ import {useState} from "react";
 
 const MenuButton = (props) => {
     const [show_options, setShowOptions] = useState(false);
+    const [highlight_edit, setHighlightEdit] = useState(false);
+    const [highlight_delete, setHighlightDelete] = useState(false);
 
     const is_focus = () => {
         return props.is_highlighted_mode || show_options;
@@ -24,17 +26,26 @@ const MenuButton = (props) => {
             {
                 show_options &&
                 <div className="d-flex">
-                    <Button variant="secondary" className="shadow-none rounded-0" type="button"
+                    <Button className={"shadow-none px-1 py-0 border-0 " + (highlight_edit ? "bg-info" : "bg-transparent")}
+                            type="button"
                             data-toggle="tooltip"
-                            data-placement="top" title="Edit" onClick={props.edit_button_on_click}>
+                            data-placement="top" title="Edit"
+                            onClick={props.edit_button_on_click}
+                            onPointerEnter={() => setHighlightEdit(true)}
+                            onPointerLeave={() => setHighlightEdit(false)}
+                    >
                         <img src="/pencil-square.svg" alt="Trash icon"
-                             style={{filter: "invert(100%)"}}></img>
+                             style={{filter: "invert(100%)"}}  ></img>
                     </Button>
-                    <Button variant="danger" className="shadow-none rounded-0" type="button"
+                    <Button className={"shadow-none p-1 py-0 border-0 " + (highlight_delete ? "bg-danger" : "bg-transparent")}
+                            type="button"
                             data-toggle="tooltip"
                             data-placement="top" title="Delete"
-                            onClick={props.delete_button_on_click}>
-                        <img src="/trash3.svg" alt="Trash icon" style={{filter: "invert(100%)"}}></img>
+                            onClick={props.delete_button_on_click}
+                            onPointerEnter={() => setHighlightDelete(true)}
+                            onPointerLeave={() => setHighlightDelete(false)}
+                    >
+                        <img src="/trash3.svg" alt="Trash icon"  style={{filter: "invert(100%)"}}></img>
                     </Button>
                 </div>
             }

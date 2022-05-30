@@ -117,7 +117,7 @@ const Category = (props) => {
         setDelete_modal_open(true);
     }
 
-    return (<div className="col-12 col-md-2 d-flex flex-column justify-content-between">
+    return (<div className="col-12 col-md-4 col-lg-3 col-xl-2 d-flex flex-column justify-content-between bg-dark bg-opacity-10">
         {
             delete_modal_open &&
             <ConfirmModal
@@ -150,9 +150,9 @@ const Category = (props) => {
                     <MenuButton
                         is_highlighted_mode={open_categories.includes(category.name)}
                         highlighted_bg="bg-dark bg-opacity-75 text-white"
-                        not_highlighted_bg="bg-dark bg-opacity-25 text-dark"
+                        not_highlighted_bg="bg-dark bg-opacity-25 text-white"
                         main_button_on_click={() => switch_category(category.name)}
-                        main_button_text={category.name}
+                        main_button_text={"# " + category.name}
                         edit_button_on_click={() => open_edit_category_modal(category._id, category.name)}
                         delete_button_on_click={() => open_delete_category_modal(category._id)}
                     />
@@ -168,7 +168,7 @@ const Category = (props) => {
                     }
                 </li>))}
         </ul>
-        <div className="mb-2">
+        <div className="m-2 mb-3">
             <NewStringForm
                 name_form={new_category_name_form}
                 name="name"
@@ -176,7 +176,8 @@ const Category = (props) => {
                 value={new_category_name_form.values.name}
                 isInvalid={new_category_name_form.touched.name && new_category_name_form.errors.name}
                 onChange={handleChange}
-                form_style="border-0 bg-danger"
+                form_style="shadow-none bg-light bg-opacity-75 border-0 text-dark"
+                div_style="col-12 col-sm-4 col-md-12"
                 form_error={new_category_name_form.errors.name}
                 name_error={category_name_error}
             />
