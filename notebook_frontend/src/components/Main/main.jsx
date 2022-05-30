@@ -4,7 +4,7 @@ import MainApp from "../MainApp/mainapp";
 const Main = () => {
 
     return (
-        <div>
+        <div className="vh-100 overflow-hidden d-flex flex-column justify-content-between">
             <Rnavbar/>
             <MainApp/>
         </div>

@@ -28,7 +28,7 @@ const Category = (props) => {
 
 
     useEffect(() => {
-        if(!!props.active_notebook && open_categories.includes(-1)) {
+        if (!!props.active_notebook && open_categories.includes(-1)) {
             const active_category = props.categories.find(category => category._id === props.active_notebook.category)
             setOpen_categories([active_category.name])
         }
@@ -88,7 +88,7 @@ const Category = (props) => {
 
     const handleChange = (change) => {
         new_category_name_form.handleChange(change)
-        if(category_form_timeout_id) {
+        if (category_form_timeout_id) {
             clearTimeout(category_form_timeout_id)
         }
         setCategory_form_timeout_id(setTimeout(() => new_category_name_form.setErrors({}), 10000));
@@ -117,7 +117,7 @@ const Category = (props) => {
         setDelete_modal_open(true);
     }
 
-    return (<div className="col-12 col-md-2 vh-100">
+    return (<div className="col-12 col-md-2 d-flex flex-column justify-content-between">
         {
             delete_modal_open &&
             <ConfirmModal
@@ -132,19 +132,19 @@ const Category = (props) => {
         {
             edit_modal_open &&
             <EditModal
-                edit_form = {edit_category_name_form}
-                name = "name"
-                name_label = "New category name"
-                value = {edit_category_name_form.values.name}
-                isInvalid = {edit_category_name_form.touched.name && edit_category_name_form.errors.name}
-                onChange = {edit_category_name_form.handleChange}
-                form_style = "border-0 "
-                form_error = {edit_category_name_form.errors.name}
-                edit_error = {category_edit_name_error}
+                edit_form={edit_category_name_form}
+                name="name"
+                name_label="New category name"
+                value={edit_category_name_form.values.name}
+                isInvalid={edit_category_name_form.touched.name && edit_category_name_form.errors.name}
+                onChange={edit_category_name_form.handleChange}
+                form_style="border-0 "
+                form_error={edit_category_name_form.errors.name}
+                edit_error={category_edit_name_error}
                 onCancel={() => setEdit_modal_open(false)}
             />
         }
-        <ul className="list-unstyled ">
+        <ul className="list-unstyled overflow-scroll">
             {props.categories.map((category, index) => (
                 <li key={index}>
                     <MenuButton
@@ -167,20 +167,20 @@ const Category = (props) => {
                         />
                     }
                 </li>))}
-            <li>
-                <NewStringForm
-                    name_form = {new_category_name_form}
-                    name = "name"
-                    name_label = "New category name"
-                    value = {new_category_name_form.values.name}
-                    isInvalid = {new_category_name_form.touched.name && new_category_name_form.errors.name}
-                    onChange = {handleChange}
-                    form_style = "border-0 "
-                    form_error = {new_category_name_form.errors.name}
-                    name_error = {category_name_error}
-                />
-            </li>
         </ul>
+        <div className="mb-2">
+            <NewStringForm
+                name_form={new_category_name_form}
+                name="name"
+                name_label="New category name"
+                value={new_category_name_form.values.name}
+                isInvalid={new_category_name_form.touched.name && new_category_name_form.errors.name}
+                onChange={handleChange}
+                form_style="border-0 bg-danger"
+                form_error={new_category_name_form.errors.name}
+                name_error={category_name_error}
+            />
+        </div>
     </div>);
 };
 

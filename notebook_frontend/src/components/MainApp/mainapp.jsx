@@ -48,25 +48,26 @@ const MainApp = () => {
     }, [active_notebook]);
 
     return (
-        <div className="d-flex w-100 h-100">
-            <Category
-                categories={categories}
-                setCategories={setCategories}
-                notebooks={notebooks}
-                setNotebooks={setNotebooks}
-                open_categories={[-1]}
-                active_notebook={active_notebook}
-                setActiveNotebook={setActiveNotebook}
-                notes={notes}
-                setNotes={setNotes}
-            />
-            <div className="w-100">
-                <Notes
-                    active_notebook={active_notebook}
-                    notes={notes}
-                    setNotes={setNotes}
-                />
-            </div>
+
+        <div className="vh-100 overflow-hidden d-flex">
+
+        <Category
+            categories={categories}
+            setCategories={setCategories}
+            notebooks={notebooks}
+            setNotebooks={setNotebooks}
+            open_categories={[-1]}
+            active_notebook={active_notebook}
+            setActiveNotebook={setActiveNotebook}
+            notes={notes}
+            setNotes={setNotes}
+        />
+
+        <Notes
+            active_notebook={active_notebook}
+            notes={notes}
+            setNotes={setNotes}
+        />
 
         </div>);
 };
