@@ -122,6 +122,11 @@ const Notes = (props) => {
             })
     }
 
+    const parse_date = (date) => {
+        const date_obj = new Date(date)
+        return `${date_obj.getHours()}:${date_obj.getMinutes().toString(10).padStart(2, '0')} ${date_obj.getDate().toString(10).padStart(2, '0')}.${(date_obj.getMonth() + 1).toString(10).padStart(2, '0')}.${date_obj.getFullYear()}`
+    }
+
     const open_edit_note_modal = (note_id, note_name) => {
         edit_note_name_form.setValues({text: note_name, note_id: note_id})
         setEdit_modal_open(true)
@@ -135,13 +140,13 @@ const Notes = (props) => {
     const message_text = (note) => {
         return (
             <div className="d-flex flex-column">
-                <div className="d-flex">
+                <div className="d-flex fw-bold">
                     <div>
-                        {note.createdAt}
+                        {parse_date(note.createdAt)}
                     </div>
                     {!!note.updatedAt &&
-                        <div className="ms-2">
-                            (updated at {note.updatedAt} )
+                        <div className="ms-2 fst-italic">
+                            (updated at {parse_date(note.updatedAt)} )
                         </div>
                     }
                 </div>
@@ -154,7 +159,7 @@ const Notes = (props) => {
     }
 
     return (
-        <div className="mx-2 w-100 d-flex flex-column justify-content-between">
+        <div className="mx-2 w-100 d-flex flex-column justify-content-between bg-dark bg-opacity-75 text-white">
             {
                 delete_modal_open &&
                 <ConfirmModal
@@ -183,13 +188,13 @@ const Notes = (props) => {
                 />
             }
 
-            <ul className="list-unstyled overflow-scroll">
+            <ul className="list-unstyled overflow-scroll mb-1">
                 {props.notes.map((note, index) => (
-                    <li key={index} className="mt-1 bg-light">
+                    <li key={index} className="mt-1">
                         <MenuButton
                             is_highlighted_mode={false}
-                            highlighted_bg="bg-dark bg-opacity-25 text-dark"
-                            not_highlighted_bg="bg-dark bg-opacity-25 text-dark"
+                            highlighted_bg="bg-light bg-opacity-25"
+                            not_highlighted_bg=""
                             main_button_on_click={() => {
                             }}
                             main_button_text={message_text(note)}
@@ -200,7 +205,7 @@ const Notes = (props) => {
                 <li ref={down_message_ref}></li>
             </ul>
 
-            <div className="mb-2">
+            <div className="m-2 mb-3">
                 <NewStringForm
                     name_form={note_name_form}
                     name="text"
@@ -209,7 +214,7 @@ const Notes = (props) => {
                     value={note_name_form.values.text}
                     isInvalid={note_name_form.touched.text && note_name_form.errors.text}
                     onChange={handleChange}
-                    form_style="border-2 border-danger shadow-none"
+                    form_style="shadow-none bg-light bg-opacity-75 border-0 text-dark"
                     form_error={note_name_form.errors.text}
                     name_error={note_name_error}
                 />

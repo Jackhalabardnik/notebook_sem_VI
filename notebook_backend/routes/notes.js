@@ -15,7 +15,7 @@ const validate_put = (data) => {
 
 // GET /api/notes for notebook
 router.get("/:id", async (req, res) => {
-    const notes = await Note.find({user: req.user._id, notebook: req.params.id}).sort({createdAt: -1})
+    const notes = await Note.find({user: req.user._id, notebook: req.params.id}).sort({createdAt: 1})
     if (!notes) { res.status(404).send("No notes found") }
     res.send(notes)
 })

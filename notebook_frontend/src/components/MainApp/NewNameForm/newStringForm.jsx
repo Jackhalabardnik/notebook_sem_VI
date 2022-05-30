@@ -1,6 +1,7 @@
 import {Alert, Form} from "react-bootstrap";
 
 const NewStringForm = (props) => {
+
     return(
         <div>
             <Form onSubmit={props.name_form.handleSubmit} noValidate>
@@ -11,7 +12,7 @@ const NewStringForm = (props) => {
                         onChange={props.onChange}
                         value={ props.value }
                         isInvalid={ props.isInvalid }
-                        className={props.form_style}
+                        className={ " " + props.form_style}
                     />
                     <Form.Control.Feedback type="invalid"
                                            className="fw-bold">{props.form_error }</Form.Control.Feedback>

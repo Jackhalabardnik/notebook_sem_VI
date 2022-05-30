@@ -48,7 +48,7 @@ async function seed_notes_for_user(user) {
             let number = Math.floor(Math.random() * 25) + 1
             for (let k = 0; k < number; k++) {
                 let is_updated = Math.random() < 0.5;
-                let random_created_at = randomDate(new Date(2022, 5, 1), new Date());
+                let random_created_at = randomDate(new Date(2022, 4, 1), new Date());
                 let random_updated_at = is_updated ? randomDate(random_created_at, new Date()) : null;
                 notes.push({
                     user: user._id,
