@@ -112,7 +112,7 @@ const Notebook = (props) => {
             {
                 delete_modal_open &&
                 <ConfirmModal
-                    title = "Are you sure you want to delete this notebook?"
+                    modal_title="Are you sure you want to delete this notebook?"
                     onConfirm = {() => {
                         delete_notebook(delete_notebook_id)
                         setDelete_modal_open(false)
@@ -123,13 +123,14 @@ const Notebook = (props) => {
             {
                 edit_modal_open &&
                 <EditModal
+                    modal_title = "Edit notebook name"
                     edit_form = {edit_notebook_name_form}
                     name = "name"
                     name_label = "New category name"
                     value = {edit_notebook_name_form.values.name}
                     isInvalid = {edit_notebook_name_form.touched.name && edit_notebook_name_form.errors.name}
                     onChange = {edit_notebook_name_form.handleChange}
-                    form_style = ""
+                    form_style = "shadow-none bg-light bg-opacity-25 border-0 text-white"
                     form_error = {edit_notebook_name_form.errors.name}
                     edit_error = {notebook_edit_name_error}
                     onCancel = {() => setEdit_modal_open(false)}
@@ -162,7 +163,7 @@ const Notebook = (props) => {
                         value = {notebook_name_form.values.name}
                         isInvalid = {notebook_name_form.touched.name && notebook_name_form.errors.name}
                         onChange = {handleChange}
-                        form_style = "shadow-none bg-light bg-opacity-75 border-0 text-dark"
+                        form_style = "shadow-none bg-light bg-opacity-25 border-0 text-white"
                         div_style="col-12 col-sm-4 col-md-10 col-lg-12 col-xxl-10"
                         form_error = {notebook_name_form.errors.name}
                         name_error = {notebook_name_error}

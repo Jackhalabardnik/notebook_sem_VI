@@ -6,6 +6,7 @@ import MenuButton from "../MenuButton/menubutton";
 import NewStringForm from "../NewNameForm/newStringForm";
 import EditModal from "../../Modals/edit_modal";
 import ConfirmModal from "../../Modals/confirm_modal";
+import {Button} from "react-bootstrap";
 
 const note_validation_schema = yup.object().shape({
     text: yup.string().required().min(1).max(2000).label('Text'),
@@ -164,7 +165,7 @@ const Notes = (props) => {
             {
                 delete_modal_open &&
                 <ConfirmModal
-                    title="Are you sure you want to delete this note?"
+                    modal_title="Are you sure you want to delete this note?"
                     onConfirm={() => {
                         delete_note(delete_note_id)
                         setDelete_modal_open(false)
@@ -175,14 +176,15 @@ const Notes = (props) => {
             {
                 edit_modal_open &&
                 <EditModal
+                    modal_title = "Edit note"
+                    modal_style="w-100 mx-4"
                     edit_form={edit_note_name_form}
                     name="text"
                     name_label="New category name"
                     value={edit_note_name_form.values.text}
                     isInvalid={edit_note_name_form.touched.text && edit_note_name_form.errors.text}
                     onChange={edit_note_name_form.handleChange}
-                    form_style="border-1"
-                    modal_style="w-100 mx-4"
+                    form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
                     form_error={edit_note_name_form.errors.text}
                     edit_error={note_edit_name_error}
                     onCancel={() => setEdit_modal_open(false)}
@@ -191,7 +193,7 @@ const Notes = (props) => {
 
             <ul className="list-unstyled overflow-scroll mb-1">
                 {props.notes.map((note, index) => (
-                    <li key={index} className="mt-1">
+                    <li key={index} className="mt-2">
                         <MenuButton
                             is_highlighted_mode={false}
                             highlighted_bg="bg-light bg-opacity-10 rounded-2"
@@ -206,19 +208,27 @@ const Notes = (props) => {
                 <li ref={down_message_ref}></li>
             </ul>
 
-            <div className="m-2 mb-3">
-                <NewStringForm
-                    name_form={note_name_form}
-                    name="text"
-                    control_id="text_form"
-                    name_label="Write here"
-                    value={note_name_form.values.text}
-                    isInvalid={note_name_form.touched.text && note_name_form.errors.text}
-                    onChange={handleChange}
-                    form_style="shadow-none bg-light bg-opacity-75 border-0 text-dark"
-                    form_error={note_name_form.errors.text}
-                    name_error={note_name_error}
-                />
+            <div className="m-2 mb-3 d-flex flex-column flex-md-row ">
+                <div className="w-100">
+                    <NewStringForm
+                        name_form={note_name_form}
+                        name="text"
+                        control_id="text_form"
+                        name_label="Write here and hit enter"
+                        value={note_name_form.values.text}
+                        isInvalid={note_name_form.touched.text && note_name_form.errors.text}
+                        onChange={handleChange}
+                        form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
+                        form_error={note_name_form.errors.text}
+                        name_error={note_name_error}
+                    />
+                </div>
+                <Button
+                    className="ms-2 col-12 col-md-5 col-lg-3 col-xxl-2 shadow-none"
+                    variant="outline-light"
+                    >
+                    Open search window
+                </Button>
             </div>
         </div>);
 };

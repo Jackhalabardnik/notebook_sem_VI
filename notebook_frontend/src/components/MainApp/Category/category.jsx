@@ -122,7 +122,7 @@ const Category = (props) => {
         {
             delete_modal_open &&
             <ConfirmModal
-                title="Are you sure you want to delete this category?"
+                modal_title="Are you sure you want to delete this category?"
                 onConfirm={() => {
                     delete_category(delete_category_id)
                     setDelete_modal_open(false)
@@ -133,13 +133,14 @@ const Category = (props) => {
         {
             edit_modal_open &&
             <EditModal
+                modal_title = "Edit category name"
                 edit_form={edit_category_name_form}
                 name="name"
                 name_label="New category name"
                 value={edit_category_name_form.values.name}
                 isInvalid={edit_category_name_form.touched.name && edit_category_name_form.errors.name}
                 onChange={edit_category_name_form.handleChange}
-                form_style="border-0 "
+                form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
                 form_error={edit_category_name_form.errors.name}
                 edit_error={category_edit_name_error}
                 onCancel={() => setEdit_modal_open(false)}
@@ -177,7 +178,7 @@ const Category = (props) => {
                 value={new_category_name_form.values.name}
                 isInvalid={new_category_name_form.touched.name && new_category_name_form.errors.name}
                 onChange={handleChange}
-                form_style="shadow-none bg-light bg-opacity-75 border-0 text-dark"
+                form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
                 div_style="col-12 col-sm-4 col-md-12"
                 form_error={new_category_name_form.errors.name}
                 name_error={category_name_error}
