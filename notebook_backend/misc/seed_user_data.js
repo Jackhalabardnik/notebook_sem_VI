@@ -13,7 +13,7 @@ const {Note} = require("../models/note");
 const generate_name = () => {
     return random_words({
         exactly: 1, formatter: (word, index) => {
-            if (word.length < 3) {
+            while (word.length < 3) {
                 word += word;
             }
             return word.slice(0, 1).toUpperCase().concat(word.slice(1));
