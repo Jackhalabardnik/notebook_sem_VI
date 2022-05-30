@@ -57,6 +57,7 @@ const Notes = (props) => {
             axios.post("http://localhost:8080/api/note", values, {headers: {"authorization": `${token}`}})
                 .then(response => {
                     props.setNotes([...props.notes, response.data])
+                    note_name_form.resetForm()
                 })
                 .catch(error => {
                     if (error.response && error.response.status >= 400 && error.response.status <= 500) {

@@ -53,6 +53,7 @@ const Category = (props) => {
             axios.post("http://localhost:8080/api/category", values, {headers: {"authorization": `${token}`}})
                 .then(response => {
                     props.setCategories([...props.categories, response.data])
+                    new_category_name_form.resetForm()
                 })
                 .catch(error => {
                     if (error.response && error.response.status >= 400 && error.response.status <= 500) {
