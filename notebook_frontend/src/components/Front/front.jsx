@@ -9,7 +9,7 @@ const Front = () => {
             />
             <div className="d-flex flex-lg-row flex-md-column vh-100 bg-dark">
                 <div
-                    className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center  text-white">
+                    className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center text-white">
 
                     <ul className="text-start">
                         <li>

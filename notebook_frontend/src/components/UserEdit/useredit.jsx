@@ -54,7 +54,7 @@ const UserEdit = () => {
     const delete_account = async () => {
         const token = localStorage.getItem("token")
         await axios.delete("http://localhost:8080/api/users", {headers: {"authorization": `${token}`}})
-            .then(response => {
+            .then(() => {
                 localStorage.removeItem("token")
                 window.location = "/"
             })
@@ -67,17 +67,17 @@ const UserEdit = () => {
     }
 
     return (
-        <div className="col-12 col-md-6">
+        <div className="col-12 col-md-6 my-3">
             {
                 delete_modal_open &&
                 <ConfirmModal
-                    title = "Are you sure you want to remove this account? This action can't be undone."
-                    onConfirm = {() => {
-                        delete_account().then(r => {
+                    title="Are you sure you want to remove this account? This action can't be undone."
+                    onConfirm={() => {
+                        delete_account().then(() => {
                             setDelete_modal_open(false)
                         })
                     }}
-                    onCancel = {() => setDelete_modal_open(false)}
+                    onCancel={() => setDelete_modal_open(false)}
                 />
             }
             <Form onSubmit={formik.handleSubmit} noValidate>
@@ -151,11 +151,14 @@ const UserEdit = () => {
                 </div>
             </Form>
             {error && <Alert variant="danger" className="text-center m-2">Error: {error}</Alert>}
-            <div className="mt-5 bg-danger bg-opacity-50 p-5 text-center">
-                <div className="fs-5 fw-bold mb-2">
-                    Danger Zone:
+            <div className="bg-light">
+                <div className="mt-5 bg-danger bg-opacity-50 p-5 text-center">
+                    <div className="fs-5 fw-bold mb-2">
+                        Danger Zone:
+                    </div>
+                    <Button type="button" variant="danger" className="col-12"
+                            onClick={() => setDelete_modal_open(true)}>Delete account</Button>
                 </div>
-                <Button type="button" variant="danger" className="col-12" onClick={() => setDelete_modal_open(true)}>Delete account</Button>
             </div>
         </div>);
 };
