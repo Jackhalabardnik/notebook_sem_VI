@@ -7,9 +7,9 @@ const Front = () => {
             <Rnavbar
                 mainlink="/front"
             />
-            <div className="d-flex flex-lg-row flex-md-column">
+            <div className="d-flex flex-lg-row flex-md-column vh-100 bg-dark">
                 <div
-                    className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center">
+                    className="d-flex flex-column align-items-center fs-5 align-middle p-4 col-lg-4 col-12 text-center  text-white">
 
                     <ul className="text-start">
                         <li>
@@ -23,14 +23,17 @@ const Front = () => {
                         </li>
                     </ul>
                     If this is true, you have come to the right place.
-                    <div className="my-4">
+                    <div className="my-4 text-dark">
                         <Signup/>
                     </div>
 
                     And create your own notebook for free!
 
                 </div>
-                <img src="/splash.png" alt="splash" className="col-lg-8 col-12 img-fluid"/>
+                <div className="col-lg-8 col-12 me-4 mt-2">
+                    <img src="/splash.png" alt="splash" className="img-fluid"/>
+                </div>
+
             </div>
         </div>
     )
