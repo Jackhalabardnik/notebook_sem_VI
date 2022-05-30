@@ -137,7 +137,7 @@ const Notebook = (props) => {
 
             <div className="ms-3">
                 {props.notebooks.filter(notebook => notebook.category === props.category._id).map((notebook, index) => (
-                    <li key={index}>
+                    <li key={index} className="mt-1">
                         <MenuButton
                             is_highlighted_mode = { is_notebook_highlighted(notebook._id) }
                             highlighted_bg = "bg-dark bg-opacity-50 text-white"

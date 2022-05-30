@@ -17,7 +17,7 @@ const MenuButton = (props) => {
             onPointerLeave={() => setShowOptions(false)}
         >
             <div
-                className="bg-transparent border-0 shadow-none rounded-0 text-start w-100"
+                className="bg-transparent text-start w-100"
                 onClick={props.main_button_on_click}>
 
                 {props.main_button_text}

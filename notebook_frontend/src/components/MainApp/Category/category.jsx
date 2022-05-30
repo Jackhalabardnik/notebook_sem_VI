@@ -117,7 +117,7 @@ const Category = (props) => {
         setDelete_modal_open(true);
     }
 
-    return (<div className="col-12 col-md-4 col-lg-3 col-xl-2 d-flex flex-column justify-content-between bg-dark bg-opacity-10">
+    return (<div className="col-12 col-md-4 col-lg-3 col-xl-2 d-flex flex-column justify-content-between bg-dark bg-opacity-25">
         {
             delete_modal_open &&
             <ConfirmModal
@@ -146,11 +146,11 @@ const Category = (props) => {
         }
         <ul className="list-unstyled overflow-scroll">
             {props.categories.map((category, index) => (
-                <li key={index}>
+                <li key={index} className="mt-1 mx-1">
                     <MenuButton
                         is_highlighted_mode={open_categories.includes(category.name)}
-                        highlighted_bg="bg-dark bg-opacity-75 text-white"
-                        not_highlighted_bg="bg-dark bg-opacity-25 text-white"
+                        highlighted_bg="bg-dark bg-opacity-75 text-white rounded-1"
+                        not_highlighted_bg="text-white"
                         main_button_on_click={() => switch_category(category.name)}
                         main_button_text={"# " + category.name}
                         edit_button_on_click={() => open_edit_category_modal(category._id, category.name)}

@@ -159,7 +159,7 @@ const Notes = (props) => {
     }
 
     return (
-        <div className="mx-2 w-100 d-flex flex-column justify-content-between text-white">
+        <div className="mx-2 w-100 d-flex flex-column justify-content-end text-white">
             {
                 delete_modal_open &&
                 <ConfirmModal
@@ -193,7 +193,7 @@ const Notes = (props) => {
                     <li key={index} className="mt-1">
                         <MenuButton
                             is_highlighted_mode={false}
-                            highlighted_bg="bg-light bg-opacity-25"
+                            highlighted_bg="bg-light bg-opacity-10 rounded-2"
                             not_highlighted_bg=""
                             main_button_on_click={() => {
                             }}
