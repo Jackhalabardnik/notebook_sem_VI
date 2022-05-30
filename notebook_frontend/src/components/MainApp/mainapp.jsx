@@ -20,7 +20,7 @@ const MainApp = () => {
                     .then((response_notebook) => {
                         setNotebooks(response_notebook.data)
                         const last_notebook_id = localStorage.getItem("last_notebook_id")
-                        let last_notebook = response_notebook.data.find(notebook => notebook.id === last_notebook_id)
+                        let last_notebook = response_notebook.data.find(notebook => notebook._id === last_notebook_id)
                         last_notebook = last_notebook ? last_notebook : response_notebook.data[1]
                         setActiveNotebook(last_notebook)
                     }).catch((error) => {
