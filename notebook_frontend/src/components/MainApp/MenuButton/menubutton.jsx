@@ -26,7 +26,7 @@ const MenuButton = (props) => {
             {
                 show_options &&
                 <div className="d-flex">
-                    <Button className={"shadow-none px-1 py-0 border-0 " + (highlight_edit ? "bg-info" : "bg-transparent")}
+                    <Button className={"shadow-none px-1 py-0 border-0 " + (highlight_edit ? "bg-success" : "bg-transparent")}
                             type="button"
                             data-toggle="tooltip"
                             data-placement="top" title="Edit"
