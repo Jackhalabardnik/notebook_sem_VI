@@ -87,6 +87,9 @@ const Notebook = (props) => {
         })
             .then(() => {
                 props.setNotebooks(props.notebooks.filter(notebook => notebook._id !== notebook_id))
+                if(notebook_id === delete_notebook_id) {
+                    props.setActiveNotebook(null)
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -104,7 +107,7 @@ const Notebook = (props) => {
     }
 
     const is_notebook_highlighted = (notebook_id) => {
-        return props.active_notebook._id === notebook_id
+        return props.active_notebook && props.active_notebook._id === notebook_id
     }
 
     return (

@@ -102,6 +102,9 @@ const Category = (props) => {
         })
             .then(() => {
                 props.setCategories(props.categories.filter(category => category._id !== category_id))
+                if(props.active_notebook && props.active_notebook.category === category_id) {
+                    props.setActiveNotebook(null)
+                }
             })
             .catch(error => {
                 console.log(error)

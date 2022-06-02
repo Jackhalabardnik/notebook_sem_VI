@@ -34,10 +34,12 @@ const Notes = (props) => {
 
 
     const scroll_bottom = () => {
-        down_message_ref.current.scrollIntoView({
-            block: "nearest",
-            inline: "center"
-        })
+        if(down_message_ref.current) {
+            down_message_ref.current.scrollIntoView({
+                block: "nearest",
+                inline: "center"
+            })
+        }
     }
 
     useEffect(() => {
@@ -166,91 +168,103 @@ const Notes = (props) => {
     return (
         <div className="mx-2 w-100 d-flex flex-column justify-content-end text-white">
             {
-                search_modal_open &&
-                <SearchModal
-                    modal_style="mx-4"
-                    modal_title="Search for messages"
-                    onCancel={() => setSearch_modal_open(false)}
-                    active_notebook={props.active_notebook}
-                    notebooks={props.notebooks}
-                    categories={props.categories}
-                    message_text={message_text}
-                />
-            }
-            {
-                delete_modal_open &&
-                <ConfirmModal
-                    modal_title="Are you sure you want to delete this note?"
-                    onConfirm={() => {
-                        delete_note(delete_note_id)
-                        setDelete_modal_open(false)
-                    }}
-                    onCancel={() => setDelete_modal_open(false)}
-                />
-            }
-            {
-                edit_modal_open &&
-                <EditModal
-                    modal_title="Edit note"
-                    modal_style="w-100 mx-4"
-                    edit_form={edit_note_name_form}
-                    name="text"
-                    name_label="New category name"
-                    value={edit_note_name_form.values.text}
-                    isInvalid={edit_note_name_form.touched.text && edit_note_name_form.errors.text}
-                    onChange={edit_note_name_form.handleChange}
-                    form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
-                    form_error={edit_note_name_form.errors.text}
-                    edit_error={note_edit_name_error}
-                    onCancel={() => setEdit_modal_open(false)}
-                />
-            }
-
-            <ul className="list-unstyled overflow-scroll mb-1">
-                {props.notes.map((note, index) => (
-                    <li key={index} className="mt-2">
-                        <MenuButton
-                            is_highlighted_mode={false}
-                            highlighted_bg="bg-light bg-opacity-10 rounded-2"
-                            not_highlighted_bg=""
-                            main_button_on_click={() => {
-                            }}
-                            main_button_text={message_text(note)}
-                            edit_button_on_click={() => open_edit_note_modal(note._id, note.text)}
-                            delete_button_on_click={() => open_delete_note_modal(note._id)}
+                !props.notes.includes(-1) &&
+                <div>
+                    {
+                        search_modal_open &&
+                        <SearchModal
+                            modal_style="mx-4"
+                            modal_title="Search for messages"
+                            onCancel={() => setSearch_modal_open(false)}
+                            active_notebook={props.active_notebook}
+                            notebooks={props.notebooks}
+                            categories={props.categories}
+                            message_text={message_text}
                         />
-                    </li>))}
-                <li ref={down_message_ref}></li>
-            </ul>
+                    }
+                    {
+                        delete_modal_open &&
+                        <ConfirmModal
+                            modal_title="Are you sure you want to delete this note?"
+                            onConfirm={() => {
+                                delete_note(delete_note_id)
+                                setDelete_modal_open(false)
+                            }}
+                            onCancel={() => setDelete_modal_open(false)}
+                        />
+                    }
+                    {
+                        edit_modal_open &&
+                        <EditModal
+                            modal_title="Edit note"
+                            modal_style="w-100 mx-4"
+                            edit_form={edit_note_name_form}
+                            name="text"
+                            name_label="New category name"
+                            value={edit_note_name_form.values.text}
+                            isInvalid={edit_note_name_form.touched.text && edit_note_name_form.errors.text}
+                            onChange={edit_note_name_form.handleChange}
+                            form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
+                            form_error={edit_note_name_form.errors.text}
+                            edit_error={note_edit_name_error}
+                            onCancel={() => setEdit_modal_open(false)}
+                        />
+                    }
 
+                    <ul className="list-unstyled overflow-scroll mb-1">
+                        {props.notes.map((note, index) => (
+                            <li key={index} className="mt-2">
+                                <MenuButton
+                                    is_highlighted_mode={false}
+                                    highlighted_bg="bg-light bg-opacity-10 rounded-2"
+                                    not_highlighted_bg=""
+                                    main_button_on_click={() => {
+                                    }}
+                                    main_button_text={message_text(note)}
+                                    edit_button_on_click={() => open_edit_note_modal(note._id, note.text)}
+                                    delete_button_on_click={() => open_delete_note_modal(note._id)}
+                                />
+                            </li>))}
+                        <li ref={down_message_ref}></li>
+                    </ul>
+
+                    {
+                        props.notes.length === 0 &&
+                        <div className="text-center text-white mb-2">
+                            No notes, write something down!
+                        </div>
+                    }
+
+                    <div className="m-2 mb-3 d-flex flex-column flex-md-row ">
+                        <div className="w-100">
+                            <NewStringForm
+                                name_form={note_name_form}
+                                name="text"
+                                control_id="text_form"
+                                name_label="Write here and hit enter"
+                                value={note_name_form.values.text}
+                                isInvalid={note_name_form.touched.text && note_name_form.errors.text}
+                                onChange={handleChange}
+                                form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
+                                form_error={note_name_form.errors.text}
+                                name_error={note_name_error}
+                            />
+                        </div>
+                        <Button
+                            className="ms-2 col-12 col-md-5 col-lg-3 col-xxl-2 shadow-none"
+                            variant="outline-light" onClick={() => setSearch_modal_open(true)}>
+                            Open search window
+                        </Button>
+                    </div>
+                </div>
+            }
             {
-                props.notes.length === 0 &&
-                <div className="text-center text-white mb-2">
-                        No notes, write something down!
+                props.notes.includes(-1) &&
+                <div className="text-center text-white mb-4">
+                    No notebook, choose one or create new!
                 </div>
             }
 
-            <div className="m-2 mb-3 d-flex flex-column flex-md-row ">
-                <div className="w-100">
-                    <NewStringForm
-                        name_form={note_name_form}
-                        name="text"
-                        control_id="text_form"
-                        name_label="Write here and hit enter"
-                        value={note_name_form.values.text}
-                        isInvalid={note_name_form.touched.text && note_name_form.errors.text}
-                        onChange={handleChange}
-                        form_style="shadow-none bg-light bg-opacity-25 border-0 text-white"
-                        form_error={note_name_form.errors.text}
-                        name_error={note_name_error}
-                    />
-                </div>
-                <Button
-                    className="ms-2 col-12 col-md-5 col-lg-3 col-xxl-2 shadow-none"
-                    variant="outline-light" onClick={() => setSearch_modal_open(true)}>
-                    Open search window
-                </Button>
-            </div>
         </div>);
 };
 

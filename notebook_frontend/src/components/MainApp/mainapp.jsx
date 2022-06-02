@@ -44,6 +44,8 @@ const MainApp = () => {
                 }).catch((error) => {
                 console.log(error)
             })
+        } else {
+            setNotes([-1])
         }
     }, [active_notebook]);
 
