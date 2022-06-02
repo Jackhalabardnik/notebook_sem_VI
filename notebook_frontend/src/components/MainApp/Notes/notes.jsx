@@ -7,6 +7,7 @@ import NewStringForm from "../NewNameForm/newStringForm";
 import EditModal from "../../Modals/edit_modal";
 import ConfirmModal from "../../Modals/confirm_modal";
 import {Button} from "react-bootstrap";
+import SearchModal from "../../Modals/search_modal";
 
 const note_validation_schema = yup.object().shape({
     text: yup.string().required().min(1).max(2000).label('Text'),
@@ -26,9 +27,12 @@ const Notes = (props) => {
     const [delete_modal_open, setDelete_modal_open] = useState(false)
     const [delete_note_id, setDelete_note_id] = useState('')
     const [note_edit_name_error, setNote_edit_name_error] = useState('')
+    const [do_scrolling, setDo_scrolling] = useState(true);
+    const [search_modal_open, setSearch_modal_open] = useState(false);
+
     const down_message_ref = useRef(null)
 
-    const [do_scrolling, setDo_scrolling] = useState(true);
+
 
     const scroll_bottom = () => {
         down_message_ref.current.scrollIntoView({
@@ -163,6 +167,18 @@ const Notes = (props) => {
     return (
         <div className="mx-2 w-100 d-flex flex-column justify-content-end text-white">
             {
+                search_modal_open &&
+                <SearchModal
+                    modal_style="mx-4"
+                    modal_title="Search for messages"
+                    onCancel={() => setSearch_modal_open(false)}
+                    active_notebook={props.active_notebook}
+                    notebooks={props.notebooks}
+                    categories={props.categories}
+                    message_text={message_text}
+                />
+            }
+            {
                 delete_modal_open &&
                 <ConfirmModal
                     modal_title="Are you sure you want to delete this note?"
@@ -225,8 +241,7 @@ const Notes = (props) => {
                 </div>
                 <Button
                     className="ms-2 col-12 col-md-5 col-lg-3 col-xxl-2 shadow-none"
-                    variant="outline-light"
-                    >
+                    variant="outline-light" onClick={() => setSearch_modal_open(true)}>
                     Open search window
                 </Button>
             </div>

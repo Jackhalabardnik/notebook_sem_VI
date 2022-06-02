@@ -65,6 +65,8 @@ const MainApp = () => {
 
         <Notes
             active_notebook={active_notebook}
+            notebooks={notebooks}
+            categories={categories}
             notes={notes}
             setNotes={setNotes}
         />

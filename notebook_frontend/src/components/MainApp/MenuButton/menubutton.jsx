@@ -24,7 +24,7 @@ const MenuButton = (props) => {
 
             </div>
             {
-                show_options &&
+                show_options && !!!props.no_buttons &&
                 <div className="d-flex">
                     <Button className={"shadow-none px-1 py-0 border-0 " + (highlight_edit ? "bg-success" : "bg-transparent")}
                             type="button"

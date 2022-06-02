@@ -20,6 +20,21 @@ router.get("/:id", async (req, res) => {
     res.send(notes)
 })
 
+//search for notes in all notebooks
+router.get("/search/:query", async (req, res) => {
+
+    const notes = await Note.find({user: req.user._id, text: {$regex: req.params.query}}).sort({createdAt: 1})
+    if (!notes) { res.status(404).send("No notes found") }
+    res.send(notes);
+})
+
+//search for notes in a notebook
+router.get("/search/:query/:id", async (req, res) => {
+    const notes = await Note.find({user: req.user._id, notebook: req.params.id, text: {$regex: req.params.query}}).sort({createdAt: 1})
+    if (!notes) { res.status(404).send("No notes found") }
+    res.send(notes);
+})
+
 // POST /api/notes for notebook
 router.post("/", async (req, res) => {
         const {error} = validate(req.body)
