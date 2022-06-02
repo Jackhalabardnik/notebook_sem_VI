@@ -21,7 +21,6 @@ const SearchModal = (props) => {
         initialValues: {
             text: '', range: 'notebook',
         }, validationSchema: search_validation_schema, onSubmit: values => {
-            console.log("Search Name Form Values: ", values);
             const token = localStorage.getItem("token");
 
             let address = `http://localhost:8080/api/note/search/${search_name_form.values.text}`;

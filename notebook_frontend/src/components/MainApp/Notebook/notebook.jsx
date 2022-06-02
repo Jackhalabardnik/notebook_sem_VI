@@ -154,6 +154,12 @@ const Notebook = (props) => {
                         />
                     </li>
                 ))}
+                {
+                    props.notebooks.filter(notebook => notebook.category === props.category._id).length === 0 &&
+                    <div className="text-white my-2">
+                        Add your shiny new notebook!
+                    </div>
+                }
                 <li className="m-2 mb-3 ms-0">
                     <NewStringForm
                         name_form = {notebook_name_form}

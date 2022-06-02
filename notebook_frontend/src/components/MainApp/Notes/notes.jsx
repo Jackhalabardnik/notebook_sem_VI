@@ -33,7 +33,6 @@ const Notes = (props) => {
     const down_message_ref = useRef(null)
 
 
-
     const scroll_bottom = () => {
         down_message_ref.current.scrollIntoView({
             block: "nearest",
@@ -192,7 +191,7 @@ const Notes = (props) => {
             {
                 edit_modal_open &&
                 <EditModal
-                    modal_title = "Edit note"
+                    modal_title="Edit note"
                     modal_style="w-100 mx-4"
                     edit_form={edit_note_name_form}
                     name="text"
@@ -223,6 +222,13 @@ const Notes = (props) => {
                     </li>))}
                 <li ref={down_message_ref}></li>
             </ul>
+
+            {
+                props.notes.length === 0 &&
+                <div className="text-center text-white mb-2">
+                        No notes, write something down!
+                </div>
+            }
 
             <div className="m-2 mb-3 d-flex flex-column flex-md-row ">
                 <div className="w-100">

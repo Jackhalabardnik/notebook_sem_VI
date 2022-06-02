@@ -169,7 +169,16 @@ const Category = (props) => {
                         />
                     }
                 </li>))}
+            {
+                props.categories.length === 0 &&
+                <div className="text-white text-center my-2">
+                    Add your first category!
+                </div>
+            }
         </ul>
+
+
+
         <div className="m-2 mb-3">
             <NewStringForm
                 name_form={new_category_name_form}
