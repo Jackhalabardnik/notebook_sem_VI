@@ -7,7 +7,7 @@ const ConfirmModal = (props) => {
             modal_style={props.modal_style}
             modal_title={props.modal_title}
             modal_body={
-                <div>
+                <div className="d-flex justify-content-center">
                     <Button variant="danger" onClick={props.onConfirm}>
                         Yes
                     </Button>

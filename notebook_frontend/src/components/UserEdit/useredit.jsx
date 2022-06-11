@@ -71,7 +71,7 @@ const UserEdit = () => {
             {
                 delete_modal_open &&
                 <ConfirmModal
-                    title="Are you sure you want to remove this account? This action can't be undone."
+                    modal_title="Are you sure you want to remove this account? This action can't be undone."
                     onConfirm={() => {
                         delete_account().then(() => {
                             setDelete_modal_open(false)
