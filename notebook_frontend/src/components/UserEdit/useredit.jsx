@@ -13,7 +13,7 @@ const updateUserValidationSchema = yup.object().shape({
     password: yup.string().label('Password'),
     r_password: yup.string()
         .when("password", {
-            is: (val: any) => (val && val.length > 0),
+            is: (val) => (val && val.length > 0),
             then: yup.string().oneOf(
                 [yup.ref("password")],
                 "Both password need to be the same"
@@ -67,7 +67,7 @@ const UserEdit = () => {
     }
 
     return (
-        <div className="col-12 col-md-6 my-3">
+        <div className="col-12 col-md-6 my-3 h-100">
             {
                 delete_modal_open &&
                 <ConfirmModal

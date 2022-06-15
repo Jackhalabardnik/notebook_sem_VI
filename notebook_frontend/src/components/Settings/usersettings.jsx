@@ -6,7 +6,7 @@ const UserSettings = () => {
     return (
         <div>
             <Rnavbar/>
-            <div className="d-flex justify-content-center bg-dark vh-100">
+            <div className="d-flex justify-content-center bg-dark h-100">
                 <UserEdit/>
             </div>
         </div>
